@@ -1,0 +1,36 @@
+alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
+alias nvimrc='nvim ~/.config/nvim/'
+alias nalacritty='nvim ~/.config/alacritty/alacritty.yml'
+alias nzsh='nvim ~/.config/zsh/.zshrc'
+
+
+# Colorize grep output (good for log files)
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+# confirm before overwriting something
+alias cp="cp -i"
+alias mv='mv -i'
+alias rm='rm -i'
+alias la="ls -la"
+
+# get top process eating memory
+alias psmem='ps auxf | sort -nr -k 4 | head -5'
+
+# get top process eating cpu ##
+alias pscpu='ps auxf | sort -nr -k 3 | head -5'
+
+alias sgwp="$HOME/Sites/wp/frontend"
+alias sgo2="$HOME/Sites/wp/o2nitro"
+alias wpsh="$HOME/Sites/wp/frontend-shared"
+alias n2cr="$HOME/Sites/wp/mpb/n2cr-frontend/"
+
+alias vim="nvim"
+alias lgt="lazygit"
+
+
+# configs
+alias czsh="$HOME/.config/zsh"
+alias cnvim="$HOME/.config/nvim"
+

@@ -1,0 +1,10 @@
+.DS_Store
+*/**/.git
+nvim/plugin/*
+configstore
+github-*
+verdaccio
+.zsh_sessions
+.zcompdump
+.zsh_history
+
