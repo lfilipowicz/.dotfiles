@@ -17,7 +17,6 @@ zle_highlight=('paste:none')
 autoload -Uz compinit 
 zstyle ':completion:*' menu select
 
-# export FZF_DEFAULT_COMMAND='rg --hidden -l ""'
 compinit
 
 # zstyle ':completion::complete:lsof:*' menu yes select
@@ -50,7 +49,6 @@ source "$ZDOTDIR/zsh-functions"
 zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
 zsh_add_file "zsh-aliases"
-zsh_add_file "zsh-prompt"
 
 
 # Plugins
@@ -61,17 +59,11 @@ zsh_add_completion "esc/conda-zsh-completion" false
 zsh_add_file "plugins/yarn-autocompletions/yarn-autocompletions.plugin.zsh"
 
 # Key-bindings
-bindkey -s '^o' 'ranger^M'
-bindkey -s '^f' 'zi^M'
+bindkey -s '^o' 'xplr^M'
 bindkey -s '^s' 'ncdu^M'
-# bindkey -s '^n' 'nvim $(fzf)^M'
-# bindkey -s '^v' 'nvim\n'
-bindkey -s '^z' 'zi^M'
+bindkey -s '^n' 'nvim $(fzf)^M'
+bindkey -s '^v' 'nvim\n'
 bindkey '^[[P' delete-char
-bindkey "^p" up-line-or-beginning-search # Up
-bindkey "^n" down-line-or-beginning-search # Down
-bindkey "^k" up-line-or-beginning-search # Up
-bindkey "^j" down-line-or-beginning-search # Down
 bindkey -r "^u"
 bindkey -r "^d"
 
@@ -103,3 +95,4 @@ export EDITOR="nvim"
 
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
+eval "$(starship init zsh)"
