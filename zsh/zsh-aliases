@@ -2,7 +2,7 @@ alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git
 alias nvimrc='nvim ~/.config/nvim/'
 alias nalacritty='nvim ~/.config/alacritty/alacritty.yml'
 alias nzsh='nvim ~/.config/zsh/.zshrc'
-
+alias ntmux='nvim ~/.config/tmux/tmux.conf'
 
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
