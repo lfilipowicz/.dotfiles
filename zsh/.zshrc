@@ -96,3 +96,6 @@ export EDITOR="nvim"
 # Fig post block. Keep at the bottom of this file.
 [[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && . "$HOME/.fig/shell/zshrc.post.zsh"
 eval "$(starship init zsh)"
+
+export PATH=$PATH:$(go env GOPATH)/bin
+eval "$(zoxide init zsh)"
