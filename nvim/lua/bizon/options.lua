@@ -25,7 +25,6 @@ local options = {
   splitbelow = true,
   splitright = true,
   swapfile = false,
-  termguicolors = true,
   timeoutlen = 500,
   undodir = os.getenv("HOME") .. "/.vim/undodir",
   undofile = true,

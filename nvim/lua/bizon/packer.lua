@@ -29,7 +29,7 @@ return require("packer").startup(function(use)
       opt = true,
     },
   })
-  use("folke/tokyonight.nvim")
+  use({ "catppuccin/nvim", as = "catppuccin" })
 
   use("L3MON4D3/LuaSnip") --snippet engine
   use("rafamadriz/friendly-snippets") -- a bunch of snip pets to use
@@ -40,7 +40,6 @@ return require("packer").startup(function(use)
     run = ":TSUpdate",
   })
 
-  use("romgrk/nvim-treesitter-context")
   --     -- TELESCOPE
   use("nvim-lua/popup.nvim")
   use("nvim-telescope/telescope.nvim")
@@ -48,9 +47,8 @@ return require("packer").startup(function(use)
   use("JoosepAlviste/nvim-ts-context-commentstring")
   -- GIT
   use("lewis6991/gitsigns.nvim")
-  use("christoomey/vim-tmux-navigator")
-  use("lewis6991/impatient.nvim")
-  use("ahmedkhalf/project.nvim")
+  -- use("lewis6991/impatient.nvim")
+  -- use("ahmedkhalf/project.nvim")
   use("RRethy/vim-illuminate")
   use({
     "kyazdani42/nvim-tree.lua",
@@ -61,9 +59,7 @@ return require("packer").startup(function(use)
   })
   use("goolord/alpha-nvim")
   use("norcalli/nvim-colorizer.lua")
-  -- use("SmiteshP/nvim-navic")
 
   use("windwp/nvim-ts-autotag")
   use("windwp/nvim-autopairs")
-  -- use("f-person/git-blame.nvim")
 end)

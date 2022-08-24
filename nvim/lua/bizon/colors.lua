@@ -1,9 +1,13 @@
 vim.g.syntax_on = true
 
 -- tokyo setup
-local colorscheme = "tokyonight"
-vim.g.tokyonight_style = "night"
+-- local colorscheme = "tokyonight"
+-- vim.g.tokyonight_style = "night"
 -- vim.g.tokyonight_style = "storm"
+
+-- cappuccino
+local colorscheme = "catppuccin"
+vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 if not status_ok then

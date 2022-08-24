@@ -83,9 +83,9 @@ local function n_set_buf_keymap(bufnr, keymap, cmd)
 end
 
 local function lsp_keymaps(bufnr)
-  n_set_buf_keymap(bufnr, "gD", "<cmd> lua vim.lsp.buf.definition()<cr>")
+  n_set_buf_keymap(bufnr, "gd", "<cmd> lua vim.lsp.buf.definition()<cr>")
   n_set_buf_keymap(bufnr, "gtd", "<cmd> lua vim.lsp.buf.type_definition()<cr>")
-  n_set_buf_keymap(bufnr, "gi", "<cmd> lua vim.lsp.buf.implementation()<cr>")
+  -- n_set_buf_keymap(bufnr, "gi", "<cmd> lua vim.lsp.buf.implementation()<cr>")
   n_set_buf_keymap(bufnr, "K", "<cmd>Lspsaga hover_doc<cr>")
   n_set_buf_keymap(bufnr, "vd", "<cmd> lua vim.diagnostic.open_float()<cr>")
   n_set_buf_keymap(bufnr, "<leader>q", "<cmd> lua vim.diagnostic.setloclist()<cr>")

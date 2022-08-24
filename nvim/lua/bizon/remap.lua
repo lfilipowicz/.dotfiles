@@ -52,6 +52,6 @@ nnoremap("<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
 nnoremap("<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
 
 -- LSP SAGA
-vnoremap("<leader>ca", "<cmd><C-U>Lspsaga range_code_action<CR>", opts)
+vnoremap("<leader>ca", "<cmd>Lspsaga range_code_action<CR>", opts)
 nnoremap("K", "<cmd>Lspsaga hover_doc<CR>", opts)
 nnoremap("gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
