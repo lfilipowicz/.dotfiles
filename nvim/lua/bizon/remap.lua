@@ -55,3 +55,13 @@ nnoremap("<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
 vnoremap("<leader>ca", "<cmd>Lspsaga range_code_action<CR>", opts)
 nnoremap("K", "<cmd>Lspsaga hover_doc<CR>", opts)
 nnoremap("gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
+
+-- Trouble
+
+-- Lua
+nnoremap("<leader>xx", "<cmd>Trouble<cr>", opts)
+nnoremap("<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", opts)
+nnoremap("<leader>xd", "<cmd>Trouble document_diagnostics<cr>", opts)
+nnoremap("<leader>xl", "<cmd>Trouble loclist<cr>", opts)
+nnoremap("<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
+nnoremap("gR", "<cmd>Trouble lsp_references<cr>", opts)

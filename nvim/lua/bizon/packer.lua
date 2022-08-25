@@ -62,4 +62,9 @@ return require("packer").startup(function(use)
 
   use("windwp/nvim-ts-autotag")
   use("windwp/nvim-autopairs")
+  use({
+    "folke/todo-comments.nvim",
+    requires = "nvim-lua/plenary.nvim",
+  })
+  use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 end)

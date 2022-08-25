@@ -12,6 +12,7 @@ plugin.setup({
     selection_caret = " ",
     path_display = { "smart" },
     preview_title = false,
+    file_ignore_patterns = { ".git" },
   },
   picker = {
     results_title = false,
