@@ -53,15 +53,19 @@ nnoremap("<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
 
 -- LSP SAGA
 vnoremap("<leader>ca", "<cmd>Lspsaga range_code_action<CR>", opts)
-nnoremap("K", "<cmd>Lspsaga hover_doc<CR>", opts)
-nnoremap("gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
+nnoremap("<leader>gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
 
 -- Trouble
-
--- Lua
 nnoremap("<leader>xx", "<cmd>Trouble<cr>", opts)
 nnoremap("<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>", opts)
 nnoremap("<leader>xd", "<cmd>Trouble document_diagnostics<cr>", opts)
 nnoremap("<leader>xl", "<cmd>Trouble loclist<cr>", opts)
 nnoremap("<leader>xq", "<cmd>Trouble quickfix<cr>", opts)
-nnoremap("gR", "<cmd>Trouble lsp_references<cr>", opts)
+nnoremap("<leader>xr", "<cmd>Trouble lsp_references<cr>", opts)
+
+local nvim_tmux_nav = require("nvim-tmux-navigation")
+
+vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
