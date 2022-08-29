@@ -1,5 +1,5 @@
 # Fig pre block. Keep at the top of this file.
-[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
+# [[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && . "$HOME/.fig/shell/zshrc.pre.zsh"
 # export ZDOTDIR=$HOME/.config/zsh
 # source "$HOME/.config/zsh/.zshrc"
 #!/bin/sh
@@ -59,6 +59,7 @@ zsh_add_completion "esc/conda-zsh-completion" false
 zsh_add_file "plugins/yarn-autocompletions/yarn-autocompletions.plugin.zsh"
 
 # Key-bindings
+bindkey -v
 bindkey -s '^o' 'xplr^M'
 bindkey -s '^s' 'ncdu^M'
 bindkey -s '^n' 'nvim $(fzf)^M'
