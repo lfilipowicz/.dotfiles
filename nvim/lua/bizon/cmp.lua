@@ -21,6 +21,9 @@ local source_maps = {
 }
 
 cmp.setup({
+  experimental = {
+    nvim_open_win = true,
+  },
   snippet = {
 
     expand = function(args)
@@ -42,11 +45,10 @@ cmp.setup({
     behavior = cmp.ConfirmBehavior.Replace,
     select = false,
   },
-  window = {
-    documentation = {
-      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-    },
-  },
+  -- window = {
+  --   completion = cmp.config.window.bordered(),
+  --   documentation = cmp.config.window.bordered(),
+  -- },
   mapping = cmp.mapping.preset.insert({
     ["<C-k>"] = cmp.mapping.select_prev_item(),
     ["<C-j>"] = cmp.mapping.select_next_item(),
@@ -58,11 +60,10 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
+    { name = "nvim_lsp_signature_help" },
+    { name = "buffer", keyword_length = 3, max_item_count = 10 },
+    { name = "path", keyword_length = 3, max_item_count = 10 },
     { name = "nvim_lua", keyword_length = 3 },
     { name = "luasnip" }, -- For luasnip users.
-  }, {
-    { name = "buffer", keyword_length = 3, max_item_count = 10 },
-
-    { name = "path", keyword_length = 3, max_item_count = 10 },
-  }),
+  }, {}),
 })
