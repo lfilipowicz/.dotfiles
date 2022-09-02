@@ -10,10 +10,12 @@ plugin.setup({
   defaults = {
     prompt_prefix = " ",
     selection_caret = " ",
-    path_display = { "smart" },
+    path_display = { "truncate" },
     preview_title = false,
     file_ignore_patterns = { ".git" },
+    layout_strategy = "vertical",
   },
+
   picker = {
     results_title = false,
   },
