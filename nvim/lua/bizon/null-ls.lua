@@ -21,7 +21,6 @@ plugin.setup({
     diagnostics.shellcheck,
     diagnostics.jsonlint,
     diagnostics.luacheck,
-    diagnostics.yamllint,
     diagnostics.zsh,
   },
 })
