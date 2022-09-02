@@ -9,10 +9,7 @@ plugin.setup({
     theme = "auto",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
-    disabled_filetypes = {
-      statusline = {},
-      winbar = {},
-    },
+    disabled_filetypes = { "alpha", "dashboard", "NvimTree", "Outline" },
     ignore_focus = {},
     always_divide_middle = true,
     globalstatus = false,
