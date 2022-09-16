@@ -3,43 +3,38 @@ require("mason-lspconfig").setup({
   ensure_installed = { "sumneko_lua", "rust_analyzer", "tsserver" }
 })
 
+local lsp_config = require("lspconfig");
+local handlers = require("bizon.lsp.handlers")
+
+local opts = {
+  on_attach = handlers.on_attach,
+  capabilities = handlers.capabilities
+}
+
+
 require("mason-lspconfig").setup_handlers({
   -- The first entry (without a key) will be the default handler
   -- and will be called for each installed server that doesn't have
   -- a dedicated handler.
   function(server_name) -- default handler (optional)
-    require("lspconfig")[server_name].setup {
-      on_attach = require("bizon.lsp.handlers").on_attach,
-      capabalities = require("bizon.lsp.handlers").capabilities
-    }
+    require("lspconfig")[server_name].setup(opts)
   end,
   -- Next, you can provide targeted overrides for specific servers.
   ["tsserver"] = function()
-    local flags = require("bizon.lsp.settings.tsserver")
-    require('lspconfig').tsserver.setup {
-      falgs = flags,
-      on_attach = require("bizon.lsp.handlers").on_attach,
-      capabalities = require("bizon.lsp.handlers").capabilities
-    }
+    local settings = require("bizon.lsp.settings.tsserver")
+    local config = vim.tbl_deep_extend("force", settings, opts)
+    lsp_config.tsserver.setup(config)
   end,
   ["sumneko_lua"] = function()
     local settings = require('bizon.lsp.settings.sumneko_lua')
-    require("lspconfig").sumneko_lua.setup {
-      settings = settings,
-      on_attach = require("bizon.lsp.handlers").on_attach,
-      capabalities = require("bizon.lsp.handlers").capabilities
-    }
+    local config = vim.tbl_deep_extend("force", settings, opts)
+    lsp_config.sumneko_lua.setup(config)
   end,
   ["jsonls"] = function()
-    local config = require('bizon.lsp.settings.jsonls')
-    require("lspconfig").jsonls.setup({
-      settings = config.settings,
-      setup = config.setup,
-      on_attach = require("bizon.lsp.handlers").on_attach,
-      capabalities = require("bizon.lsp.handlers").capabilities
-    })
+    local settings = require('bizon.lsp.settings.jsonls')
+    local config = vim.tbl_deep_extend("force", settings, opts)
+    lsp_config.jsonls.setup(config)
   end,
 })
 
-require('mason-lspconfig')
-require("bizon.lsp.handlers").setup()
+handlers.setup()
