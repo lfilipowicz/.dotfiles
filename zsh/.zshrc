@@ -44,12 +44,13 @@ autoload -Uz colors && colors
 
 # Useful Functions
 source "$ZDOTDIR/zsh-functions"
+source /opt/homebrew/share/zsh-abbr/zsh-abbr.zsh
+
 
 # Normal files to source
 zsh_add_file "zsh-exports"
 zsh_add_file "zsh-vim-mode"
-zsh_add_file "zsh-aliases"
-
+zsh_add_file "zsh-aliases" 
 
 # Plugins
 zsh_add_plugin "zsh-users/zsh-autosuggestions"
@@ -100,3 +101,6 @@ eval "$(starship init zsh)"
 
 export PATH=$PATH:$(go env GOPATH)/bin
 eval "$(zoxide init zsh)"
+
+
+export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
