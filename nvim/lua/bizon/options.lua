@@ -7,7 +7,7 @@ local options = {
   errorbells = false,
   fileencoding = "utf-8",
   guicursor = "i:ver25",
-  hlsearch = true,
+  hlsearch = false,
   ignorecase = true,
   incsearch = true,
   laststatus = 3,
@@ -57,4 +57,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.shortmess:append("c")
 vim.cmd([[set whichwrap=<,>,[,],h,l]])
 vim.cmd([[set iskeyword+=-]])
-vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]])
+vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
+
+vim.g.blamer_enabled = 1
+vim.g.blamer_delay = 200

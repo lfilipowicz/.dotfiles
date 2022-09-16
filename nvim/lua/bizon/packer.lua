@@ -7,8 +7,9 @@ return require("packer").startup(function(use)
   use("nvim-lua/plenary.nvim")
   use("kyazdani42/nvim-web-devicons")
   -- LSP
+  use { "williamboman/mason.nvim" }
+  use({ "williamboman/mason-lspconfig.nvim" })
   use("neovim/nvim-lspconfig")
-  use("williamboman/nvim-lsp-installer")
   use("jose-elias-alvarez/null-ls.nvim")
   use("glepnir/lspsaga.nvim")
 
@@ -19,7 +20,6 @@ return require("packer").startup(function(use)
   use("hrsh7th/cmp-buffer")
   use("hrsh7th/cmp-nvim-lsp")
   use("hrsh7th/cmp-nvim-lua")
-  use("hrsh7th/cmp-nvim-lsp-signature-help")
   use("saadparwaiz1/cmp_luasnip")
   use("onsails/lspkind-nvim")
 
@@ -49,21 +49,12 @@ return require("packer").startup(function(use)
   use("JoosepAlviste/nvim-ts-context-commentstring")
   -- GIT
   use("lewis6991/gitsigns.nvim")
-  -- use("lewis6991/impatient.nvim")
-  -- use("ahmedkhalf/project.nvim")
   use("RRethy/vim-illuminate")
-  use({
-    "kyazdani42/nvim-tree.lua",
-    requires = {
-      "kyazdani42/nvim-web-devicons", -- optional, for file icons
-    },
-    tag = "nightly", -- optional, updated every week. (see issue #1193)
-  })
+
+
   use("goolord/alpha-nvim")
   use("norcalli/nvim-colorizer.lua")
 
-  use("windwp/nvim-ts-autotag")
-  use("windwp/nvim-autopairs")
   use({
     "folke/todo-comments.nvim",
     requires = "nvim-lua/plenary.nvim",
@@ -79,4 +70,6 @@ return require("packer").startup(function(use)
       })
     end,
   })
+  use("APZelos/blamer.nvim")
+
 end)

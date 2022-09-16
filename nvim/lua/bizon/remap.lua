@@ -1,6 +1,7 @@
 local nnoremap = require("bizon.keymap").nnoremap
 local inoremap = require("bizon.keymap").inoremap
 local vnoremap = require("bizon.keymap").vnoremap
+local xnoremap = require("bizon.keymap").xnoremap
 
 local opts = { noremap = true, silent = true }
 
@@ -16,9 +17,8 @@ nnoremap("<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr
 nnoremap("<leader>fp", "<cmd>Telescope projects<cr>")
 
 -- MOVE TEXT UP AND DOWN
-nnoremap("<S-UP>", ":m .-2<CR>==")
-nnoremap("<S-DOWN>", ":m .+1<CR>==")
-
+vnoremap("J", ":m '>+1<CR>gv=gv")
+vnoremap("K", ":m '<-2<CR>gv=gv")
 -- RESIZE WINDOW
 
 nnoremap("<A-UP>", ":resize -2<CR>", opts)
@@ -69,3 +69,5 @@ vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
 vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
 vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+
+xnoremap("<leader>p", "\"_dP")

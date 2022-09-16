@@ -7,6 +7,7 @@ vim.g.syntax_on = true
 
 -- cappuccino
 local colorscheme = "catppuccin"
+-- vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 vim.g.catppuccin_flavour = "frappe" -- latte, frappe, macchiato, mocha
 
 local status_ok, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
