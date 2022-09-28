@@ -1,6 +1,6 @@
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "sumneko_lua", "rust_analyzer", "tsserver" }
+  ensure_installed = { "sumneko_lua", "rust_analyzer", "tsserver", "taplo" }
 })
 
 local lsp_config = require("lspconfig");
@@ -34,6 +34,22 @@ require("mason-lspconfig").setup_handlers({
     local settings = require('bizon.lsp.settings.jsonls')
     local config = vim.tbl_deep_extend("force", settings, opts)
     lsp_config.jsonls.setup(config)
+  end,
+  ["rust_analyzer"] = function()
+    local settings = require('bizon.lsp.settings.rust')
+    local config = vim.tbl_deep_extend("force", settings, opts)
+    lsp_config.rust_analyzer.setup({
+      cmd = { "rustup", "run", "nightly", "rust-analyzer" },
+      --[[
+    settings = {
+        rust = {
+            unstable_features = true,
+            build_on_save = false,
+            all_features = true,
+        },
+    }
+    --]]
+    })
   end,
 })
 

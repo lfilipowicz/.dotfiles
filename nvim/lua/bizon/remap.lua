@@ -40,7 +40,7 @@ nnoremap("<S-h>", "<cmd>bprevious<cr>", opts)
 
 nnoremap(
   "<leader>lf",
-  "<cmd>lua vim.lsp.buf.format({async=true})<cr>",
+  "<cmd>FormatWrite<cr>",
   -- "<cmd>lua vim.lsp.buf.format({async=true, filter = function(client) return client.name ~= 'tsserver' end})<cr>",
   opts
 )
@@ -70,4 +70,4 @@ vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
 vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 
-xnoremap("<leader>p", "\"_dP")
+xnoremap("<leader>p", '"_dP')

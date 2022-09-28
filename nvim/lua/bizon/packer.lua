@@ -11,6 +11,7 @@ return require("packer").startup(function(use)
   use({ "williamboman/mason-lspconfig.nvim" })
   use("neovim/nvim-lspconfig")
   use("glepnir/lspsaga.nvim")
+  use("simrat39/rust-tools.nvim")
 
   -- CMP
   use("hrsh7th/nvim-cmp")
@@ -70,5 +71,6 @@ return require("packer").startup(function(use)
     end,
   })
   use("APZelos/blamer.nvim")
+  use({ 'mhartington/formatter.nvim' })
 
 end)

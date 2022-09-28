@@ -19,6 +19,14 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
     vim.cmd("!tmux source <afile><CR>")
   end,
 })
+
+vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+  pattern = { "*" },
+  callback = function()
+    vim.cmd("FormatWrite")
+  end,
+})
+
 -- -- Dotfile hooks
 -- vim.cmd[[autocmd BufWritePost *tmux.conf !tmux source <afile>]]
 -- vim.cmd[[autocmd BufWritePost *yabairc !brew services restart yabai]]

@@ -57,7 +57,10 @@ vim.opt.isfname:append("@-@")
 vim.opt.shortmess:append("c")
 vim.cmd([[set whichwrap=<,>,[,],h,l]])
 vim.cmd([[set iskeyword+=-]])
-vim.cmd([[autocmd BufWritePre * lua vim.lsp.buf.format()]])
 
 vim.g.blamer_enabled = 1
 vim.g.blamer_delay = 200
+
+vim.g.rustfmt_autosave = 1
+vim.g.rustfmt_emit_files = 1
+vim.g.rustfmt_fail_silently = 0

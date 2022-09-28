@@ -12,7 +12,7 @@ local lspkind_status_ok, lspkind = pcall(require, "lspkind")
 if not lspkind_status_ok then
   return
 end
--- require("luasnip/loaders/from_vscode").lazy_load()
+require("luasnip/loaders/from_vscode").lazy_load()
 local compare = cmp.config.compare
 local types = require("cmp.types")
 
@@ -71,7 +71,7 @@ cmp.setup({
   },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
-    select = false,
+    select = true,
   },
   mapping = cmp.mapping.preset.insert({
     ["<C-k>"] = cmp.mapping.select_prev_item(),
