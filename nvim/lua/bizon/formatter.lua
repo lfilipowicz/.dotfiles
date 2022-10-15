@@ -3,7 +3,7 @@ local util = require("formatter.util")
 local filetype = require("formatter.filetypes")
 
 -- -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
-require("formatter").setup {
+require("formatter").setup({
   -- Enable or disable logging
   logging = true,
   -- Set the log level
@@ -14,7 +14,9 @@ require("formatter").setup {
     typescript = { filetype.typescript.prettier },
     javascriptreact = { filetype.javascriptreact.prettier },
     typescriptreact = { filetype.typescriptreact.prettier },
+    json = { filetype.json.prettier },
     rust = { filetype.rust.rustfmt },
+    graphql = { filetype.graphql.prettier },
     -- Formatter configurations for filetype "lua" go here
     -- and will be executed in order
     lua = {
@@ -42,9 +44,9 @@ require("formatter").setup {
           },
           stdin = true,
         }
-      end
+      end,
     },
     -- Use the special "*" filetype for defining formatter configurations on
     -- any filetype
-  }
-}
+  },
+})
