@@ -38,6 +38,7 @@ local options = {
   expandtab = true,
   shiftwidth = 2,
   smarttab = true,
+  ch = 0,
 }
 
 local globals = {
@@ -64,3 +65,6 @@ vim.g.blamer_delay = 200
 vim.g.rustfmt_autosave = 1
 vim.g.rustfmt_emit_files = 1
 vim.g.rustfmt_fail_silently = 0
+
+vim.g.netrw_keepdir = 0
+vim.g.netrw_localcopydircmd = "cp -r"
