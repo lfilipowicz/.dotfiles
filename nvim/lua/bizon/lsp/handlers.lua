@@ -91,7 +91,6 @@ local function lsp_keymaps(bufnr)
   n_set_buf_keymap(bufnr, "gtd", "<cmd> lua vim.lsp.buf.type_definition()<cr>")
   n_set_buf_keymap(bufnr, "gD", "<cmd> lua vim.lsp.buf.declaration()<cr>")
   n_set_buf_keymap(bufnr, "gi", "<cmd> lua vim.lsp.buf.implementation()<cr>")
-  n_set_buf_keymap(bufnr, "K", "<cmd>Lspsaga hover_doc<cr>")
   n_set_buf_keymap(bufnr, "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>")
   n_set_buf_keymap(bufnr, "<leader>q", "<cmd> lua vim.diagnostic.setloclist()<cr>")
   i_set_buf_keymap(bufnr, "<C-h>", "<cmd> lua vim.lsp.buf.signature_help()<cr>")
@@ -137,7 +136,6 @@ end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
-
 
 local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
 if not status_ok then

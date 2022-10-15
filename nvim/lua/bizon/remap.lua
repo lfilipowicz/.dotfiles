@@ -6,19 +6,19 @@ local xnoremap = require("bizon.keymap").xnoremap
 local opts = { noremap = true, silent = true }
 
 -- NETRW
-nnoremap("<leader>pv", "<cmd>Ex<CR>")
+nnoremap("<leader>pa", ":Explore %:p:h<cr>", opts)
+nnoremap("<leader>pv", ":Explore<cr>", opts)
 
 --- telescope
-nnoremap("<leader>ff", "<cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>")
-nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>")
-nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>")
-nnoremap("<leader>fgs", "<cmd>lua require('telescope.builtin').git_status()<cr>")
-nnoremap("<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr>")
-nnoremap("<leader>fp", "<cmd>Telescope projects<cr>")
+nnoremap("<leader>ff", "<cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>", opts)
+nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
+nnoremap("<leader>fa", "<cmd>lua require('telescope.builtin').git_status()<cr>", opts)
+nnoremap("<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr>", opts)
 
 -- MOVE TEXT UP AND DOWN
-vnoremap("J", ":m '>+1<CR>gv=gv")
-vnoremap("K", ":m '<-2<CR>gv=gv")
+vnoremap("J", ":m '>+1<CR>gv=gv", opts)
+vnoremap("K", ":m '<-2<CR>gv=gv", opts)
 -- RESIZE WINDOW
 
 nnoremap("<A-UP>", ":resize -2<CR>", opts)
@@ -50,6 +50,9 @@ nnoremap("<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
 nnoremap("<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
 nnoremap("<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
 nnoremap("<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
+nnoremap("<leader>lD", "<cmd>Lspsaga peek_definition<CR>", opts)
+nnoremap("<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+nnoremap("K", "<cmd>Lspsaga hover_doc<cr>", opts)
 
 -- LSP SAGA
 vnoremap("<leader>ca", "<cmd>Lspsaga range_code_action<CR>", opts)
