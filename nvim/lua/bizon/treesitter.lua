@@ -40,13 +40,4 @@ configs.setup({
   context_commentstring = {
     enable = true,
   },
-  rainbow = {
-    enable = true,
-    colors = {
-      "Gold",
-      "Orchid",
-      "DodgerBlue",
-    },
-    disable = { "html" },
-  },
 })

@@ -27,10 +27,10 @@ vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --   end,
 -- })
 
-vim.cmd([[augroup FormatAutogroup
-  autocmd!
-  autocmd BufWritePost * FormatWrite
-augroup END]])
+-- vim.cmd([[augroup FormatAutogroup
+-- autocmd!
+-- autocmd BufWritePost * FormatWrite
+-- augroup END]])
 
 -- -- Dotfile hooks
 -- vim.cmd[[autocmd BufWritePost *tmux.conf !tmux source <afile>]]

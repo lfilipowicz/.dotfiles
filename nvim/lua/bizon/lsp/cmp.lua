@@ -13,17 +13,11 @@ if not lspkind_status_ok then
   return
 end
 require("luasnip/loaders/from_vscode").lazy_load()
+
+vim.opt.completeopt = "menu,menuone,noselect"
+
 local compare = cmp.config.compare
 local types = require("cmp.types")
-
-local function deprioritize_snippet(entry1, entry2)
-  if entry1:get_kind() == types.lsp.CompletionItemKind.Snippet then
-    return false
-  end
-  if entry2:get_kind() == types.lsp.CompletionItemKind.Snippet then
-    return true
-  end
-end
 
 local source_maps = {
   nvim_lsp = "[lsp]",
@@ -33,26 +27,6 @@ local source_maps = {
 }
 
 cmp.setup({
-  experimental = {
-    nvim_open_win = true,
-  },
-  sorting = {
-    priority_weight = 1.0,
-    comparators = {
-      deprioritize_snippet,
-      -- compare.score_offset, -- not good at all
-      compare.logality,
-      compare.recently_used,
-      compare.score, -- based on :  score = score + ((#sources - (source_index - 1)) * sorting.priority_weight)
-      compare.offset,
-      compare.order,
-      -- compare.scopes, -- what?
-      compare.sort_text,
-      -- compare.exact,
-      -- compare.kind,
-      -- compare.length, -- useless
-    },
-  },
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body) -- For `luasnip` users.
@@ -61,12 +35,13 @@ cmp.setup({
   formatting = {
     fields = { "abbr", "kind", "menu" },
     format = lspkind.cmp_format({
-      mode = "symbol_text",
+      -- mode = "symbol_text",
       maxwidth = 50,
-      before = function(entry, vim_item)
-        vim_item.menu = source_maps[entry.source.name]
-        return vim_item
-      end,
+      elipsis_char = "...",
+      -- before = function(entry, vim_item)
+      --   vim_item.menu = source_maps[entry.source.name]
+      --   return vim_item
+      -- end,
     }),
   },
   confirm_opts = {
@@ -84,7 +59,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
-    { name = "nvim_lsp_signature_help" },
+    -- { name = "nvim_lsp_signature_help" },
     { name = "nvim_lua" },
     -- { name = "luasnip" }, -- For luasnip users.
   }, {

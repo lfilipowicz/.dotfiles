@@ -7,7 +7,7 @@ return require("packer").startup(function(use)
   use("nvim-lua/plenary.nvim")
   use("kyazdani42/nvim-web-devicons")
   -- LSP
-  use { "williamboman/mason.nvim" }
+  use({ "williamboman/mason.nvim" })
   use({ "williamboman/mason-lspconfig.nvim" })
   use("neovim/nvim-lspconfig")
   use("glepnir/lspsaga.nvim")
@@ -51,7 +51,6 @@ return require("packer").startup(function(use)
   use("lewis6991/gitsigns.nvim")
   use("RRethy/vim-illuminate")
 
-
   use("goolord/alpha-nvim")
   use("norcalli/nvim-colorizer.lua")
 
@@ -71,6 +70,10 @@ return require("packer").startup(function(use)
     end,
   })
   use("APZelos/blamer.nvim")
-  use({ 'mhartington/formatter.nvim' })
-
+  use({ "mhartington/formatter.nvim" })
+  use("windwp/nvim-autopairs") -- autoclose parens, brackets, quotes, etc...0
+  -- formatting & linting
+  use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
+  use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
+  use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
 end)

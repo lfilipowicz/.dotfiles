@@ -29,9 +29,6 @@ nnoremap("<A-RIGHT>", ":vertical resize +2<CR>", opts)
 -- ESCAPE FASTER
 inoremap("jj", "<ESC>", opts)
 
--- NVTree
-nnoremap("<leader>e", "<cmd>NvimTreeToggle<cr>", opts)
-
 -- BUFFER SWITCHING
 nnoremap("<S-l>", "<cmd>bnext<cr>", opts)
 nnoremap("<S-h>", "<cmd>bprevious<cr>", opts)
@@ -46,17 +43,8 @@ nnoremap(
 )
 nnoremap("<leader>li", "<cmd>LspInfo<cr>", opts)
 nnoremap("<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
-nnoremap("<leader>la", "<cmd>Lspsaga code_action<CR>", opts)
-nnoremap("<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
-nnoremap("<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
-nnoremap("<leader>lr", "<cmd>Lspsaga rename<CR>", opts)
-nnoremap("<leader>lD", "<cmd>Lspsaga peek_definition<CR>", opts)
-nnoremap("<leader>ld", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
-nnoremap("K", "<cmd>Lspsaga hover_doc<cr>", opts)
 
 -- LSP SAGA
-vnoremap("<leader>ca", "<cmd>Lspsaga range_code_action<CR>", opts)
-nnoremap("<leader>gr", "<cmd>Lspsaga lsp_finder<CR>", opts)
 
 -- Trouble
 nnoremap("<leader>xx", "<cmd>Trouble<cr>", opts)
@@ -74,3 +62,4 @@ vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 
 xnoremap("<leader>p", '"_dP')
+nnoremap("x", '"_x')
