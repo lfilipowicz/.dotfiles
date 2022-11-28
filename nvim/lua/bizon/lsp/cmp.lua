@@ -16,15 +16,15 @@ require("luasnip/loaders/from_vscode").lazy_load()
 
 vim.opt.completeopt = "menu,menuone,noselect"
 
-local compare = cmp.config.compare
-local types = require("cmp.types")
+-- local compare = cmp.config.compare
+-- local types = require("cmp.types")
 
-local source_maps = {
-  nvim_lsp = "[lsp]",
-  nvim_lua = "[lua]",
-  buffer = "[buf]",
-  path = "[pth]",
-}
+-- local source_maps = {
+--   nvim_lsp = "[lsp]",
+--   nvim_lua = "[lua]",
+--   buffer = "[buf]",
+--   path = "[pth]",
+-- }
 
 cmp.setup({
   snippet = {
