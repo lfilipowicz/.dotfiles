@@ -1,3 +1,4 @@
+local util = require("lspconfig.util")
 -- import lspconfig plugin safely
 local lspconfig_status, lspconfig = pcall(require, "lspconfig")
 if not lspconfig_status then
@@ -22,6 +23,8 @@ local opts = { noremap = true, silent = true }
 local function n_set_buf_keymap(bufnr, keymap, cmd)
   vim.api.nvim_buf_set_keymap(bufnr, "n", keymap, cmd, opts)
 end
+
+local rt = require("rust-tools")
 -- enable keybinds only for when lsp server available
 local on_attach = function(client, bufnr)
   -- keybind options
@@ -47,6 +50,12 @@ local on_attach = function(client, bufnr)
     n_set_buf_keymap(bufnr, "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
     n_set_buf_keymap(bufnr, "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
   end
+
+  if client.name == "rust_analyzer" then
+    vim.lsp.codelens.refresh()
+    n_set_buf_keymap(bufnr, "<leader>ra", ":RustHoverActions<CR>") -- rename file and update imports
+  end
+  require("illuminate").on_attach(client)
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
@@ -107,26 +116,81 @@ lspconfig["sumneko_lua"].setup({
   },
 })
 
-lspconfig["rust_analyzer"].setup({
-  cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-  capabilities = capabilities,
+lspconfig["taplo"] = {
   on_attach = on_attach,
+  capabilities = capabilities,
+}
+
+lspconfig["graphql"].setup({
+  on_attach,
+  capabilities,
+  filetypes = { "graphql" },
+  root_dir = util.root_pattern(".graphql.config.*", "graphql.config.*"),
 })
 
--- lspconfig["graphql"].setup({
---   on_attach,
---   capabilities,
--- })
-
-local rt = require("rust-tools")
-
 rt.setup({
+  tools = {
+    runnables = { use_telescope = true },
+    inlay_hints = { show_parameter_hints = true },
+    hover_actions = { auto_focus = true },
+  },
+  executor = require("rust-tools.executors").termopen,
+  dap = {
+    adapter = {
+      type = "executable",
+      command = "lldb-vscode",
+      name = "rt_lldb",
+    },
+  },
   server = {
     on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+      ["rust_analyzer"] = {
+        completion = { postfix = { enable = false } },
+        checkOnSave = { command = "clippy" },
+      },
+    },
   },
 })
 
+lspconfig["jsonls"].setup({
+  settings = {
+    json = {
+      schemas = {
+        {
+          fileMatch = { "composer.json" },
+          url = "https://raw.githubusercontent.com/composer/composer/master/res/composer-schema.json",
+        },
+        {
+          fileMatch = { "package.json" },
+          url = "https://json.schemastore.org/package.json",
+        },
+        {
+          fileMatch = { "tsconfig.json" },
+          url = "https://json.schemastore.org/tsconfig.json",
+        },
+        {
+          fileMatch = { "compile_commands.json" },
+          url = "https://json.schemastore.org/compile-commands.json",
+        },
+        {
+          fileMatch = { ".prettierrc" },
+          url = "https://json.schemastore.org/prettierrc.json",
+        },
+        {
+          fileMatch = { "deno.json", "deno.jsonc" },
+          url = "https://deno.land/x/deno/cli/schemas/config-file.v1.json",
+        },
+      },
+    },
+  },
+})
+
+lspconfig["yamlls"].setup({})
+
 vim.diagnostic.config({
+  virtual_text = true,
   update_on_insert = true,
   severity_sort = true,
   float = {
