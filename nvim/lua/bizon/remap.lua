@@ -63,3 +63,9 @@ vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
 
 xnoremap("<leader>p", '"_dP')
 nnoremap("x", '"_x')
+
+nnoremap("<leader>u", "<cmd>UndotreeToggle<cr>", opts)
+
+nnoremap("<C-u>", "<C-u>zz", opts)
+nnoremap("<C-d>", "<C-d>zz", opts)
+nnoremap("<leader>lR", "<cmd>LspRestart<cr>", opts)
