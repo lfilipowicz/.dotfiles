@@ -36,7 +36,7 @@ local options = {
   softtabstop = 4,
   expandtab = true,
   shiftwidth = 4,
-  ch = 0,
+  -- ch = 0, -- not working without hit-enter prompt in netrw :(
   backspace = { "indent", "eol", "start" },
   termguicolors = true,
   updatetime = 50,
@@ -57,7 +57,7 @@ for key, value in pairs(globals) do
 end
 
 vim.opt.isfname:append("@-@")
-vim.opt.shortmess:append("c")
+vim.opt.shortmess:append("ctT")
 vim.cmd([[set whichwrap=<,>,[,],h,l]])
 vim.opt.iskeyword:append("-")
 
@@ -68,5 +68,6 @@ vim.g.rustfmt_autosave = 1
 vim.g.rustfmt_emit_files = 1
 vim.g.rustfmt_fail_silently = 0
 
-vim.g.netrw_keepdir = 1
-vim.g.netrw_localcopydircmd = "cp -r"
+vim.g.netrw_keepdir = 0
+-- vim.g.netrw_localcopydircmd = "cp -r"
+vim.g.netrw_silent = 1
