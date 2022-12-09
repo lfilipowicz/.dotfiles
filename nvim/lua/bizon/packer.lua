@@ -76,4 +76,18 @@ return require("packer").startup(function(use)
   use("jayp0521/mason-null-ls.nvim") -- bridges gap b/w mason & null-ls
   use("jose-elias-alvarez/null-ls.nvim") -- configure formatters & linters
   use("jose-elias-alvarez/typescript.nvim") -- additional functionality for typescript server (e.g. rename file & update imports)
+
+  use("ThePrimeagen/vim-be-good")
+  use("ThePrimeagen/harpoon")
+  use("mbbill/undotree")
+
+  use("mfussenegger/nvim-dap")
+  use({
+    "rcarriga/nvim-dap-ui",
+    requires = { "mfussenegger/nvim-dap" },
+    config = function()
+      require("dapui").setup()
+    end,
+  })
+  use("Pocco81/DAPInstall.nvim")
 end)
