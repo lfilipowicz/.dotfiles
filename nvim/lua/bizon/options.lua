@@ -4,6 +4,7 @@ local options = {
   cmdheight = 1,
   completeopt = { "menu", "menuone", "noselect" },
   conceallevel = 0,
+  colorcolumn = "80",
   errorbells = false,
   fileencoding = "utf-8",
   guicursor = "i:ver25",
@@ -61,8 +62,8 @@ vim.opt.shortmess:append("ctT")
 vim.cmd([[set whichwrap=<,>,[,],h,l]])
 vim.opt.iskeyword:append("-")
 
--- vim.g.blamer_enabled = 1
--- vim.g.blamer_delay = 500
+vim.g.blamer_enabled = 1
+vim.g.blamer_delay = 500
 
 vim.g.rustfmt_autosave = 1
 vim.g.rustfmt_emit_files = 1

@@ -10,8 +10,12 @@ nnoremap("<leader>pa", ":Explore %:p:h<cr>", opts)
 nnoremap("<leader>pv", ":Explore<cr>", opts)
 
 --- telescope
+nnoremap("<leader>fF", "<cmd>lua require('telescope.builtin').git_files({hidden = true})<cr>", opts)
 nnoremap("<leader>ff", "<cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>", opts)
 nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+nnoremap("<leader>fG", function()
+  require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") })
+end, opts)
 nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
 nnoremap("<leader>fa", "<cmd>lua require('telescope.builtin').git_status()<cr>", opts)
 nnoremap("<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr>", opts)
@@ -69,3 +73,11 @@ nnoremap("<leader>u", "<cmd>UndotreeToggle<cr>", opts)
 nnoremap("<C-u>", "<C-u>zz", opts)
 nnoremap("<C-d>", "<C-d>zz", opts)
 nnoremap("<leader>lR", "<cmd>LspRestart<cr>", opts)
+
+-- serarch results on the middle
+nnoremap("N", "Nzzzv", opts)
+nnoremap("n", "nzzzv", opts)
+
+nnoremap("Q", "<nop>", opts)
+
+nnoremap("<leader>rt", "<cmd>:RustRunnables<cr>", opts)

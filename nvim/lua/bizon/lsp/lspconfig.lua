@@ -121,6 +121,15 @@ lspconfig["taplo"] = {
   capabilities = capabilities,
 }
 
+lspconfig["phpactor"].setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  init_options = {
+    ["language_server_phpstan.enabled"] = false,
+    ["language_server_psalm.enabled"] = false,
+  },
+})
+
 lspconfig["graphql"].setup({
   on_attach,
   capabilities,
@@ -131,7 +140,6 @@ lspconfig["graphql"].setup({
 rt.setup({
   tools = {
     runnables = { use_telescope = true },
-    inlay_hints = { show_parameter_hints = true },
     hover_actions = { auto_focus = true },
   },
   executor = require("rust-tools.executors").termopen,
@@ -144,17 +152,31 @@ rt.setup({
   },
   server = {
     on_attach = on_attach,
-    capabilities = capabilities,
     settings = {
-      ["rust_analyzer"] = {
-        completion = { postfix = { enable = false } },
+      ["rust-analyzer"] = {
         checkOnSave = { command = "clippy" },
+        imports = {
+          granularity = {
+            group = "module",
+          },
+          prefix = "self",
+        },
+        cargo = {
+          buildScripts = {
+            enable = true,
+          },
+        },
+        procMacro = {
+          enable = true,
+        },
       },
     },
   },
 })
 
 lspconfig["jsonls"].setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
   settings = {
     json = {
       schemas = {

@@ -61,6 +61,7 @@ cmp.setup({
     { name = "nvim_lsp" },
     -- { name = "nvim_lsp_signature_help" },
     { name = "nvim_lua" },
+    { name = "crates" },
     -- { name = "luasnip" }, -- For luasnip users.
   }, {
     { name = "buffer", keyword_length = 3, max_item_count = 10 },

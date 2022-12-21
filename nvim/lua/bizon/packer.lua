@@ -90,4 +90,11 @@ return require("packer").startup(function(use)
     end,
   })
   use("Pocco81/DAPInstall.nvim")
+  use({
+    "saecki/crates.nvim",
+    requires = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("crates").setup({ null_ls = { enabled = true, name = "crates.nvim" } })
+    end,
+  })
 end)

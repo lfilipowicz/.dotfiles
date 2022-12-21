@@ -24,7 +24,7 @@ null_ls.setup({
     --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
     formatting.prettierd, -- js/ts formatter
     formatting.stylua, -- lua formatter
-    diagnostics.eslint_d,
+    diagnostics.eslint,
     formatting.rustfmt.with({
       extra_args = function(params)
         local Path = require("plenary.path")
@@ -44,7 +44,7 @@ null_ls.setup({
     }),
     diagnostics.tsc,
     -- diagnostics.cspell,
-    code_action.eslint_d,
+    code_action.eslint,
     -- code_action.cspell,
     -- code_action.gitsigns,
     -- code_action.ltrs,
