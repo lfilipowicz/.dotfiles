@@ -929,6 +929,7 @@ key_bindings:
   # rename tab <C-b> + ,
   - { key: Comma, mods: Command, chars: "\x02\x2c" }
   # Select a new tmux session for the attached client interactively
+  - { key: R, mods: Command, chars: "\x02\x240" }
   - { key: K, mods: Command, chars: "\x02\x73" }
 
   # switch pane
