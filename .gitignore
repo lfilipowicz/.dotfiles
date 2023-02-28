@@ -7,4 +7,10 @@ verdaccio
 .zsh_sessions
 .zcompdump
 .zsh_history
-
+yarn/*
+grammarly*
+gh/*
+glab-cli/*
+rtx/*
+tabtab/*
+filezilla/*
