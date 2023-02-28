@@ -14,3 +14,4 @@ glab-cli/*
 rtx/*
 tabtab/*
 filezilla/*
+*.log
