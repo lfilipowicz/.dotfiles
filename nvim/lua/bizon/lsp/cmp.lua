@@ -25,8 +25,8 @@ vim.opt.completeopt = "menu,menuone,noselect"
 --   buffer = "[buf]",
 --   path = "[pth]",
 -- }
-
 cmp.setup({
+
   snippet = {
     expand = function(args)
       luasnip.lsp_expand(args.body) -- For `luasnip` users.
@@ -35,13 +35,14 @@ cmp.setup({
   formatting = {
     fields = { "abbr", "kind", "menu" },
     format = lspkind.cmp_format({
-      -- mode = "symbol_text",
+      mode = "symbol_text",
       maxwidth = 50,
       elipsis_char = "...",
       -- before = function(entry, vim_item)
       --   vim_item.menu = source_maps[entry.source.name]
       --   return vim_item
       -- end,
+      before = require("tailwindcss-colorizer-cmp").formatter,
     }),
   },
   confirm_opts = {
@@ -59,11 +60,10 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
-    -- { name = "nvim_lsp_signature_help" },
+    { name = "nvim_lsp_signature_help" },
     { name = "nvim_lua" },
     { name = "crates" },
-    -- { name = "luasnip" }, -- For luasnip users.
-  }, {
+    { name = "luasnip" }, -- For luasnip users.
     { name = "buffer", keyword_length = 3, max_item_count = 10 },
     { name = "path", keyword_length = 3, max_item_count = 10 },
   }),

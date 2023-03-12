@@ -55,7 +55,6 @@ local on_attach = function(client, bufnr)
     vim.lsp.codelens.refresh()
     n_set_buf_keymap(bufnr, "<leader>ra", ":RustHoverActions<CR>") -- rename file and update imports
   end
-  require("illuminate").on_attach(client)
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
@@ -63,7 +62,7 @@ local capabilities = cmp_nvim_lsp.default_capabilities()
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 -- (not in youtube nvim video)
-local signs = { Error = " ", Warn = " ", Hint = "ﴞ ", Info = " " }
+local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
 for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
@@ -77,6 +76,11 @@ lspconfig["html"].setup({
 
 -- configure typescript server with plugin
 typescript.setup({
+  init_options = {
+    preferences = {
+      disableSuggestions = true,
+    },
+  },
   server = {
     capabilities = capabilities,
     on_attach = on_attach,
@@ -96,11 +100,14 @@ lspconfig["tailwindcss"].setup({
 })
 
 -- configure lua server (with special settings)
-lspconfig["sumneko_lua"].setup({
+lspconfig["lua_ls"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
   settings = { -- custom settings for lua
     Lua = {
+      completion = {
+        callSnippet = "Replace",
+      },
       -- make the language server recognize "vim" global
       diagnostics = {
         globals = { "vim" },
@@ -120,7 +127,15 @@ lspconfig["taplo"] = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
-
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "sh",
+  callback = function()
+    vim.lsp.start({
+      name = "bash-language-server",
+      cmd = { "bash-language-server", "start" },
+    })
+  end,
+})
 lspconfig["phpactor"].setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -181,6 +196,15 @@ lspconfig["jsonls"].setup({
     json = {
       schemas = {
         {
+
+          fileMatch = { ".eslintrc.json" },
+          url = "https://json.schemastore.org/eslintrc.json",
+        },
+        {
+          fileMatch = { "turbo.json" },
+          url = "https://turbo.build/schema.json",
+        },
+        {
           fileMatch = { "composer.json" },
           url = "https://raw.githubusercontent.com/composer/composer/master/res/composer-schema.json",
         },
@@ -215,12 +239,17 @@ vim.diagnostic.config({
   virtual_text = true,
   update_on_insert = true,
   severity_sort = true,
-  float = {
-    focusable = false,
-    style = "minimal",
-    border = "rounded",
-    source = "always",
-    header = "",
-    prefix = "",
-  },
+  -- float = {
+  --   focusable = false,
+  --   style = "minimal",
+  --   border = "rounded",
+  --   source = "always",
+  --   header = "",
+  --   prefix = "",
+  -- },
 })
+
+-- lspconfig["rome"].setup({
+--   on_attach = on_attach,
+--   capabilities = capabilities,
+-- })
