@@ -23,8 +23,9 @@ null_ls.setup({
     --  to disable file types use
     --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
     formatting.prettierd, -- js/ts formatter
+    -- formatting.rome,
     formatting.stylua, -- lua formatter
-    diagnostics.eslint,
+    diagnostics.eslint_d,
     formatting.rustfmt.with({
       extra_args = function(params)
         local Path = require("plenary.path")
@@ -43,6 +44,8 @@ null_ls.setup({
       end,
     }),
     diagnostics.tsc,
+    formatting.shfmt,
+    code_action.shellcheck,
     -- diagnostics.cspell,
     code_action.eslint,
     -- code_action.cspell,

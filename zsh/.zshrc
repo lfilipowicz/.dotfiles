@@ -76,8 +76,8 @@ autoload edit-command-line; zle -N edit-command-line
 # bindkey '^e' edit-command-line
 zsh_add_file "zsh-git-aliases"
 
-export VOLTA_HOME="$HOME/.volta"
-export PATH="$VOLTA_HOME/bin:$PATH"
+# export VOLTA_HOME="$HOME/.volta"
+# export PATH="$VOLTA_HOME/bin:$PATH"
 
 # bun completions
 [ -s "/Users/$USER/.bun/_bun" ] && source "/Users/$USER/.bun/_bun"
@@ -104,3 +104,9 @@ eval "$(zoxide init zsh)"
 
 
 export FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+eval "$(/opt/homebrew/bin/rtx activate zsh)"
+
+# pnpm
+export PNPM_HOME="/Users/lfilipowicz/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
