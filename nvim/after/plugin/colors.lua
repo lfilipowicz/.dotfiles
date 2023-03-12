@@ -16,4 +16,6 @@ vim.g.syntax_on = true
 --   return
 -- end
 
+-- vim.api.nvim_command("colorscheme catppuccin-frappe")
+-- vim.api.nvim_command("colorscheme catppuccin-frappe")
 vim.api.nvim_command("colorscheme catppuccin-frappe")
