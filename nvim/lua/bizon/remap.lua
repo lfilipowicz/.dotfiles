@@ -13,12 +13,25 @@ nnoremap("<leader>pv", ":Explore<cr>", opts)
 nnoremap("<leader>fF", "<cmd>lua require('telescope.builtin').git_files({hidden = true})<cr>", opts)
 nnoremap("<leader>ff", "<cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>", opts)
 nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+nnoremap("<leader>fp", "<cmd>lua require'bizon.telescope-conf'.project_files()<cr>", opts)
 nnoremap("<leader>fG", function()
-  require("telescope.builtin").grep_string({ search = vim.fn.input("Grep > ") })
+  require("telescope.builtin").grep_string({ search = vim.fn.input("Grep |> ") })
 end, opts)
 nnoremap("<leader>fb", "<cmd>lua require('telescope.builtin').buffers()<cr>", opts)
 nnoremap("<leader>fa", "<cmd>lua require('telescope.builtin').git_status()<cr>", opts)
 nnoremap("<leader>fgb", "<cmd>lua require('telescope.builtin').git_branches()<cr>", opts)
+nnoremap("<leader>k", "<cmd> lua require('telescope').extensions.command_palette.command_palette()<cr>", opts)
+-- Telescope resume (last picker)
+nnoremap("<leader>fr", "<cmd>lua require'telescope.builtin'.resume()<cr>", opts) -- -- grep word under cursor
+nnoremap("<leader>gs", "<cmd>lua require'telescope.builtin'.grep_string()<cr>", opts)
+
+-- -- grep word under cursor - case-sensitive (exact word) - made for use with Replace All - see <leader>ra
+-- key_map(
+--   "n",
+--   "<leader>G",
+--   [[<Cmd>lua require'telescope.builtin'.grep_string({word_match='-w'})<CR>]],
+--   { noremap = true, silent = true }
+-- )
 
 -- MOVE TEXT UP AND DOWN
 vnoremap("J", ":m '>+1<CR>gv=gv", opts)
@@ -29,9 +42,6 @@ nnoremap("<A-UP>", ":resize -2<CR>", opts)
 nnoremap("<A-DOWN>", ":resize +2<CR>", opts)
 nnoremap("<A-LEFT>", ":vertical resize -2<CR>", opts)
 nnoremap("<A-RIGHT>", ":vertical resize +2<CR>", opts)
-
--- ESCAPE FASTER
-inoremap("jj", "<ESC>", opts)
 
 -- BUFFER SWITCHING
 nnoremap("<S-l>", "<cmd>bnext<cr>", opts)
