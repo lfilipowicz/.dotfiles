@@ -72,7 +72,6 @@ return {
       })
     end,
   },
-  "APZelos/blamer.nvim",
   "windwp/nvim-autopairs", -- autoclose parens, brackets, quotes, etc...0
   -- formatting & linting
   "jayp0521/mason-null-ls.nvim", -- bridges gap b/w mason & null-ls
