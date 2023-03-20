@@ -16,7 +16,7 @@ local options = {
   number = true,
   relativenumber = true,
   ruler = false,
-  scrolloff = 8,
+  -- scrolloff = 8,
   showcmd = false,
   showmode = false,
   showtabline = 0,
@@ -47,6 +47,7 @@ local options = {
 local globals = {
   mapleader = " ",
   maplocalleader = " ",
+  markdown_fenced_languages = { "vim", "lua", "javascript", "typescript", "html", "css", "scss", "rust" },
 }
 
 for key, value in pairs(options) do
@@ -61,9 +62,6 @@ vim.opt.isfname:append("@-@")
 vim.opt.shortmess:append("ctT")
 vim.cmd([[set whichwrap=<,>,[,],h,l]])
 vim.opt.iskeyword:append("-")
-
-vim.g.blamer_enabled = 1
-vim.g.blamer_delay = 500
 
 vim.g.rustfmt_autosave = 1
 vim.g.rustfmt_emit_files = 1
