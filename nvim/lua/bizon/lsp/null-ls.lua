@@ -20,10 +20,7 @@ null_ls.setup({
   -- setup formatters & linters
   sources = {
     require("typescript.extensions.null-ls.code-actions"),
-    --  to disable file types use
-    --  "formatting.prettier.with({disabled_filetypes: {}})" (see null-ls docs)
     formatting.prettierd, -- js/ts formatter
-    -- formatting.rome,
     formatting.stylua, -- lua formatter
     diagnostics.eslint_d,
     formatting.rustfmt.with({
@@ -46,11 +43,7 @@ null_ls.setup({
     diagnostics.tsc,
     formatting.shfmt,
     code_action.shellcheck,
-    -- diagnostics.cspell,
     code_action.eslint,
-    -- code_action.cspell,
-    -- code_action.gitsigns,
-    -- code_action.ltrs,
   },
   -- configure format on save
   on_attach = function(current_client, bufnr)
