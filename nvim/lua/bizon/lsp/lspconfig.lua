@@ -40,8 +40,9 @@ local on_attach = function(client, bufnr)
   n_set_buf_keymap(bufnr, "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>") -- show diagnostics for cursor
   n_set_buf_keymap(bufnr, "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>") -- jump to previous diagnostic in buffer
   n_set_buf_keymap(bufnr, "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
+  n_set_buf_keymap(bufnr, "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
   n_set_buf_keymap(bufnr, "K", "<cmd>Lspsaga hover_doc<CR>") -- show documentation for what is under cursor
-  n_set_buf_keymap(bufnr, "<leader>o", "<cmd>LSoutlineToggle<CR>") -- see outline on right hand side
+  n_set_buf_keymap(bufnr, "<leader>o", "<cmd>Lspsaga outline<CR>") -- see outline on right hand side
   n_set_buf_keymap(bufnr, "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>")
 
   -- typescript specific keymaps (e.g. rename file and update imports)
@@ -59,6 +60,7 @@ end
 
 -- used to enable autocompletion (assign to every lsp server config)
 local capabilities = cmp_nvim_lsp.default_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = false
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 -- (not in youtube nvim video)
@@ -97,6 +99,12 @@ lspconfig["cssls"].setup({
 lspconfig["tailwindcss"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  experimental = {
+    classRegex = {
+      "clsx\\(([^)]*)\\)",
+      "(?:'|\"|`)([^']*)(?:'|\"|`)",
+    },
+  },
 })
 
 -- configure lua server (with special settings)
@@ -113,7 +121,7 @@ lspconfig["lua_ls"].setup({
         globals = { "vim" },
       },
       workspace = {
-        -- make language server aware of runtime files
+        -- make language serv fger aware of runtime files
         library = {
           [vim.fn.expand("$VIMRUNTIME/lua")] = true,
           [vim.fn.stdpath("config") .. "/lua"] = true,
@@ -127,6 +135,9 @@ lspconfig["taplo"] = {
   on_attach = on_attach,
   capabilities = capabilities,
 }
+
+-- lspconfig.sqlls.setup({ on_attach, capabilities })
+
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "sh",
   callback = function()
@@ -233,7 +244,10 @@ lspconfig["jsonls"].setup({
   },
 })
 
-lspconfig["yamlls"].setup({})
+lspconfig.yamlls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 vim.diagnostic.config({
   virtual_text = true,
