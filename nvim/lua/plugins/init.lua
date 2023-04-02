@@ -1,18 +1,5 @@
 return {
   "folke/which-key.nvim",
-  {
-    "folke/neoconf.nvim",
-    cmd = "Neoconf",
-    config = function()
-      require("neoconf").setup({})
-    end,
-  },
-  {
-    "folke/neodev.nvim",
-    config = function()
-      require("neodev").setup({})
-    end,
-  },
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   "williamboman/mason.nvim",
