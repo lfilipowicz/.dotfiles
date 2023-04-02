@@ -74,11 +74,10 @@ vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
 vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
 vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
 vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
+vim.keymap.set("n", "<leader>u", "<cmd>UndotreeToggle<cr>")
 
 xnoremap("<leader>p", '"_dP')
 nnoremap("x", '"_x')
-
-nnoremap("<leader>u", "<cmd>UndotreeToggle<cr>", opts)
 
 nnoremap("<C-u>", "<C-u>zz", opts)
 nnoremap("<C-d>", "<C-d>zz", opts)
@@ -91,3 +90,16 @@ nnoremap("n", "nzzzv", opts)
 nnoremap("Q", "<nop>", opts)
 
 nnoremap("<leader>rt", "<cmd>:RustRunnables<cr>", opts)
+
+local mark = require("harpoon.mark")
+local ui = require("harpoon.ui")
+
+vim.keymap.set("n", "<leader>a", mark.add_file)
+vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+
+vim.keymap.set("n", "<C-j>", function()
+  ui.nav_next()
+end)
+vim.keymap.set("n", "<C-k>", function()
+  ui.nav_prev()
+end)
