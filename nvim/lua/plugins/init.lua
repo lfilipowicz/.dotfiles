@@ -1,5 +1,4 @@
 return {
-  "folke/which-key.nvim",
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   "williamboman/mason.nvim",
@@ -14,7 +13,6 @@ return {
       { "nvim-treesitter/nvim-treesitter" },
     },
   },
-  "simrat39/rust-tools.nvim",
   "hrsh7th/nvim-cmp",
   "hrsh7th/cmp-cmdline",
   "hrsh7th/cmp-path",
@@ -34,21 +32,13 @@ return {
   { "catppuccin/nvim", as = "catppuccin" },
   "L3MON4D3/LuaSnip",
   "rafamadriz/friendly-snippets",
-  "tpope/vim-commentary",
   { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
   "nvim-treesitter/nvim-treesitter-context",
   "nvim-lua/popup.nvim",
   "JoosepAlviste/nvim-ts-context-commentstring",
   -- GIT
   "lewis6991/gitsigns.nvim",
-
   "goolord/alpha-nvim",
-
-  {
-    "folke/todo-comments.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-  },
-  { "folke/trouble.nvim", dependencies = "nvim-tree/nvim-web-devicons" },
   {
     "alexghergh/nvim-tmux-navigation",
     config = function()
@@ -64,16 +54,8 @@ return {
   "jayp0521/mason-null-ls.nvim", -- bridges gap b/w mason & null-ls
   "jose-elias-alvarez/null-ls.nvim", -- configure formatters & linters
   "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
-
   "ThePrimeagen/harpoon",
   "mbbill/undotree",
-
-  {
-    "saecki/crates.nvim",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("crates").setup({ null_ls = { enabled = true, name = "crates.nvim" } })
-    end,
-  },
   "tpope/vim-fugitive",
+  "tpope/vim-commentary",
 }
