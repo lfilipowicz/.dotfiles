@@ -20,47 +20,50 @@ if not typescript_setup then
   return
 end
 local opts = { noremap = true, silent = true }
-local function n_set_buf_keymap(bufnr, keymap, cmd)
-  vim.api.nvim_buf_set_keymap(bufnr, "n", keymap, cmd, opts)
-end
 
-local rt = require("rust-tools")
 -- enable keybinds only for when lsp server available
-local on_attach = function(client, bufnr)
+local on_attach = function(client)
   -- keybind options
-
   -- set keybinds
-  n_set_buf_keymap(bufnr, "gr", "<cmd>Lspsaga lsp_finder<CR>") -- show definition, references
-  n_set_buf_keymap(bufnr, "gD", "<cmd>lua vim.lsp.buf.definition()<CR>") -- got to declaration
-  n_set_buf_keymap(bufnr, "gd", "<cmd>Lspsaga peek_definition<CR>") -- see definition and make edits in window
-  n_set_buf_keymap(bufnr, "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>") -- go to implementation
-  n_set_buf_keymap(bufnr, "<leader>la", "<cmd>Lspsaga code_action<CR>") -- see available code actions
-  n_set_buf_keymap(bufnr, "<leader>lr", "<cmd>Lspsaga rename<CR>") -- smart rename
-  n_set_buf_keymap(bufnr, "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>") -- show  diagnostics for line
-  n_set_buf_keymap(bufnr, "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>") -- show diagnostics for cursor
-  n_set_buf_keymap(bufnr, "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>") -- jump to previous diagnostic in buffer
-  n_set_buf_keymap(bufnr, "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
-  n_set_buf_keymap(bufnr, "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>") -- jump to next diagnostic in buffer
-  n_set_buf_keymap(bufnr, "K", "<cmd>Lspsaga hover_doc<CR>") -- show documentation for what is under cursor
-  n_set_buf_keymap(bufnr, "<leader>o", "<cmd>Lspsaga outline<CR>") -- see outline on right hand side
-  n_set_buf_keymap(bufnr, "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>")
+  vim.keymap.set("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
+  vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts) -- show definition, references
+  vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
+  vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<cr>", opts) -- see definition and make edits in window
+  vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
+  vim.keymap.set("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
+  vim.keymap.set("n", "<leader>lr", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
+  vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
+  vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
+  vim.keymap.set("n", "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
+  vim.keymap.set("n", "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
+  vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
+  vim.keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
+  vim.keymap.set("n", "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>", opts)
 
+  vim.keymap.set("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
+  -- Show buffer diagnostics
+  vim.keymap.set("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", opts)
+  -- Show workspace diagnostics
+  vim.keymap.set("n", "<leader>sw", "<cmd>Lspsaga show_workspace_diagnostics<CR>", opts)
+  -- Show cursor diagnostics
+  vim.keymap.set("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
   -- typescript specific keymaps (e.g. rename file and update imports)
+
   if client.name == "tsserver" then
-    n_set_buf_keymap(bufnr, "<leader>rf", ":TypescriptRenameFile<CR>") -- rename file and update imports
-    n_set_buf_keymap(bufnr, "<leader>oi", ":TypescriptOrganizeImports<CR>") -- organize imports (not in youtube nvim video)
-    n_set_buf_keymap(bufnr, "<leader>ru", ":TypescriptRemoveUnused<CR>") -- remove unused variables (not in youtube nvim video)
+    vim.keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>", opts) -- rename file and update imports
+    vim.keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", opts) -- organize imports (not in youtube nvim video)
+    vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>", opts) -- remove unused variables (not in youtube nvim video)
   end
 
   if client.name == "rust_analyzer" then
     vim.lsp.codelens.refresh()
-    n_set_buf_keymap(bufnr, "<leader>ra", ":RustHoverActions<CR>") -- rename file and update imports
+    vim.keymap.set("n", "<leader>ra", ":RustHoverActions<CR>", opts) -- rename file and update imports
   end
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
 local capabilities = cmp_nvim_lsp.default_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = false
+capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 -- (not in youtube nvim video)
@@ -163,43 +166,6 @@ lspconfig["graphql"].setup({
   root_dir = util.root_pattern(".graphql.config.*", "graphql.config.*"),
 })
 
-rt.setup({
-  tools = {
-    runnables = { use_telescope = true },
-    hover_actions = { auto_focus = true },
-  },
-  executor = require("rust-tools.executors").termopen,
-  dap = {
-    adapter = {
-      type = "executable",
-      command = "lldb-vscode",
-      name = "rt_lldb",
-    },
-  },
-  server = {
-    on_attach = on_attach,
-    settings = {
-      ["rust-analyzer"] = {
-        checkOnSave = { command = "clippy" },
-        imports = {
-          granularity = {
-            group = "module",
-          },
-          prefix = "self",
-        },
-        cargo = {
-          buildScripts = {
-            enable = true,
-          },
-        },
-        procMacro = {
-          enable = true,
-        },
-      },
-    },
-  },
-})
-
 lspconfig["jsonls"].setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -267,3 +233,10 @@ vim.diagnostic.config({
 --   on_attach = on_attach,
 --   capabilities = capabilities,
 -- })
+
+local M = {}
+
+M.on_attach = on_attach
+M.capabilities = capabilities
+
+return M
