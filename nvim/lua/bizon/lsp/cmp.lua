@@ -12,7 +12,8 @@ local lspkind_status_ok, lspkind = pcall(require, "lspkind")
 if not lspkind_status_ok then
   return
 end
-require("luasnip/loaders/from_vscode").lazy_load()
+
+-- require("luasnip.loaders.from_vscode").lazy_load()
 
 vim.opt.completeopt = "menu,menuone,noselect"
 
@@ -59,11 +60,16 @@ cmp.setup({
     ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
   }),
   sources = cmp.config.sources({
-    { name = "nvim_lsp" },
+    {
+      name = "nvim_lsp",
+      -- entry_filter = function(entry)
+      --   return require("cmp").lsp.CompletionItemKind.Snippet ~= entry:get_kind()
+      -- end,
+    },
     { name = "nvim_lsp_signature_help" },
     { name = "nvim_lua" },
     { name = "crates" },
-    { name = "luasnip" }, -- For luasnip users.
+    -- { name = "luasnip" }, -- For luasnip users.
     { name = "buffer", keyword_length = 3, max_item_count = 10 },
     { name = "path", keyword_length = 3, max_item_count = 10 },
   }),
