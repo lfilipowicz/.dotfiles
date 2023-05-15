@@ -12,7 +12,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("bizon.options")
 
-require("lazy").setup("plugins")
+require("lazy").setup({
+  spec = {
+    -- add LazyVim and import its plugins
+    -- { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- import any extras modules here
+    -- { import = "lazyvim.plugins.extras.lang.typescript" },
+    -- { import = "lazyvim.plugins.extras.lang.json" },
+    -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
+    -- import/override with your plugins
+    { import = "plugins" },
+  },
+})
 
 require("bizon.keymap")
 require("bizon.autocommands")
@@ -23,3 +34,7 @@ require("bizon.lsp.null-ls")
 require("bizon.lsp.lspsaga")
 require("bizon.lsp.mason")
 require("bizon.remap")
+require("bizon.colors")
+require("bizon.alpha")
+require("bizon.lualine")
+require("bizon.gitsigns")
