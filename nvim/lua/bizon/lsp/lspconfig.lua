@@ -25,7 +25,7 @@ local opts = { noremap = true, silent = true }
 local on_attach = function(client)
   -- keybind options
   -- set keybinds
-  vim.keymap.set("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", opts) -- show definition, references
+  vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
   vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<cr>", opts) -- see definition and make edits in window
@@ -173,7 +173,10 @@ lspconfig["jsonls"].setup({
     json = {
       schemas = {
         {
-
+          fileMatch = { "(*.schema.json" },
+          url = "https://json-schema.org/draft/2019-09/schema",
+        },
+        {
           fileMatch = { ".eslintrc.json" },
           url = "https://json.schemastore.org/eslintrc.json",
         },

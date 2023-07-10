@@ -22,12 +22,13 @@ null_ls.setup({
     require("typescript.extensions.null-ls.code-actions"),
     formatting.prettierd, -- js/ts formatter
     formatting.stylua, -- lua formatter
-    diagnostics.eslint_d,
+    diagnostics.eslint,
     diagnostics.tsc,
     -- formatting.sqlfmt,
     formatting.shfmt,
     code_action.shellcheck,
     code_action.eslint,
+    diagnostics.jsonlint,
   },
   -- configure format on save
   on_attach = function(current_client, bufnr)

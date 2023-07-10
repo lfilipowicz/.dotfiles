@@ -123,7 +123,7 @@ return {
           results_title = false,
         },
       })
-      require("telescope").load_extension("harpoon")
+      -- require("telescope").load_extension("harpoon")
       -- https://github.com/nvim-telescope/telescope-file-browser.nvim
       require("telescope").load_extension("file_browser")
       -- https://github.com/nvim-telescope/telescope-ui-select.nvim
