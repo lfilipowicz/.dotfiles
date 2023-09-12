@@ -25,6 +25,7 @@ local opts = { noremap = true, silent = true }
 local on_attach = function(client)
   -- keybind options
   -- set keybinds
+  -- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
   vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
@@ -36,7 +37,6 @@ local on_attach = function(client)
   vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
   vim.keymap.set("n", "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
   vim.keymap.set("n", "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-  vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
   vim.keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
   vim.keymap.set("n", "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>", opts)
 
@@ -72,6 +72,14 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
+
+lspconfig["rust_analyzer"].setup({
+
+  capabilities = capabilities,
+  on_attach = on_attach,
+  filetypes = { "rust" },
+  root_dir = util.root_pattern("Cargo.toml"),
+})
 
 -- configure html server
 lspconfig["html"].setup({
