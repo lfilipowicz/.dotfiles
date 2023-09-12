@@ -15,13 +15,13 @@ return {
       return { null_ls = { enabled = true, name = "crates.nvim" } }
     end,
   },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-    init = function()
-      vim.g.rustfmt_autosave = 1
-    end,
-  },
+  -- {
+  --   "rust-lang/rust.vim",
+  --   ft = "rust",
+  --   init = function()
+  --     vim.g.rustfmt_autosave = 1
+  --   end,
+  -- },
   {
     "simrat39/rust-tools.nvim",
     dependencies = "neovim/nvim-lspconfig",
@@ -38,25 +38,25 @@ return {
         server = {
           on_attach = on_attach,
           capabilities = capabilities,
-          settings = {
-            ["rust-analyzer"] = {
-              checkOnSave = { command = "clippy" },
-              imports = {
-                granularity = {
-                  group = "module",
-                },
-                prefix = "self",
-              },
-              cargo = {
-                buildScripts = {
-                  enable = true,
-                },
-              },
-              procMacro = {
-                enable = true,
-              },
-            },
-          },
+          -- settings = {
+          --   ["rust-analyzer"] = {
+          --     checkOnSave = { command = "clippy" },
+          --     imports = {
+          --       granularity = {
+          --         group = "module",
+          --       },
+          --       prefix = "self",
+          --     },
+          --     cargo = {
+          --       buildScripts = {
+          --         enable = true,
+          --       },
+          --     },
+          --     procMacro = {
+          --       enable = true,
+          --     },
+          --   },
+          -- },
         },
       }
     end,

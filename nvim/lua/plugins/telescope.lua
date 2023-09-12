@@ -143,7 +143,6 @@ return {
       -- https://github.com/AckslD/nvim-neoclip.lua
       -- <C-n>
       require("telescope").load_extension("neoclip")
-
       -- GitHub CLI → local version
       -- require("telescope").load_extension("gh")
     end,

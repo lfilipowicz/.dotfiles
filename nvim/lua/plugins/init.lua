@@ -6,7 +6,28 @@ return {
   "neovim/nvim-lspconfig",
   {
     "glepnir/lspsaga.nvim",
-    event = "BufRead",
+    keys = {
+      {
+        "K",
+        "<cmd>Lspsaga hover_doc<cr>",
+        desc = "LSPSaga hover doc",
+      },
+    },
+
+    config = function()
+      require("lspsaga").setup({
+
+        -- keybinds for navigation in lspsaga window
+        move_in_saga = { prev = "<C-k>", next = "<C-j>" },
+        -- use enter to open file with finder
+        -- use enter to open file with definition preview
+        ui = {
+          border = "single",
+        },
+        lightbulb = { enable = false },
+      })
+    end,
+    event = "LspAttach",
     dependencies = {
       { "nvim-tree/nvim-web-devicons" },
       --Please make sure you install markdown and markdown_inline parser
@@ -38,7 +59,6 @@ return {
   "JoosepAlviste/nvim-ts-context-commentstring",
   -- GIT
   "lewis6991/gitsigns.nvim",
-  "goolord/alpha-nvim",
   {
     "alexghergh/nvim-tmux-navigation",
     config = function()
@@ -58,4 +78,40 @@ return {
   "mbbill/undotree",
   "tpope/vim-fugitive",
   "tpope/vim-commentary",
+  { "akinsho/toggleterm.nvim", version = "*", config = true },
+  {
+    "lmburns/lf.nvim",
+    config = function()
+      -- This feature will not work if the plugin is lazy-loaded
+      vim.g.lf_netrw = 1
+
+      require("lf").setup({
+        escape_quit = false,
+        border = "rounded",
+        -- highlights = {FloatBorder = {guifg = require("kimbox.palette").colors.magenta}}
+      })
+
+      vim.keymap.set("n", "<C-o>", ":Lf<CR>")
+    end,
+    requires = { "plenary.nvim", "toggleterm.nvim" },
+  },
+  {
+    "ThePrimeagen/git-worktree.nvim",
+    config = function()
+      require("telescope").load_extension("git_worktree")
+    end,
+    requires = { "telescope" },
+    keys = {
+      {
+        "<leader>fw",
+        "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>",
+        desc = "Git Worktree List",
+      },
+      {
+        "<leader>fW",
+        "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>",
+        desc = "Git Worktree Create",
+      },
+    },
+  },
 }

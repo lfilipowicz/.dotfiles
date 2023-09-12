@@ -49,12 +49,6 @@ nnoremap("<S-h>", "<cmd>bprevious<cr>", opts)
 
 -- LSP
 
-nnoremap(
-  "<leader>lf",
-  "<cmd>FormatWrite<cr>",
-  -- "<cmd>lua vim.lsp.buf.format({async=true, filter = function(client) return client.name ~= 'tsserver' end})<cr>",
-  opts
-)
 nnoremap("<leader>li", "<cmd>LspInfo<cr>", opts)
 nnoremap("<leader>lI", "<cmd>LspInstallInfo<cr>", opts)
 
@@ -103,3 +97,5 @@ end)
 vim.keymap.set("n", "<C-n>", function()
   ui.nav_prev()
 end)
+
+vim.keymap.set("n", "<leader>lf", "<cmd>Lf<cr>")
