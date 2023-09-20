@@ -5,6 +5,31 @@ return {
   "williamboman/mason-lspconfig.nvim",
   "neovim/nvim-lspconfig",
   {
+    "nvim-neorg/neorg",
+    run = ":Neorg sync-parsers", -- This is the important bit!
+    config = function()
+      require("neorg").setup({
+        load = {
+          ["core.defaults"] = {},
+          ["core.concealer"] = {
+            config = { icon_preset = "diamond" },
+          },
+          ["core.dirman"] = {
+            config = {
+              workspaces = {
+                travel = "~/notes/travel",
+                work = "~/notes/work",
+                home = "~/notes/home",
+              },
+              default_workspace = "work",
+            },
+          },
+        },
+        -- configuration here
+      })
+    end,
+  },
+  {
     "glepnir/lspsaga.nvim",
     keys = {
       {

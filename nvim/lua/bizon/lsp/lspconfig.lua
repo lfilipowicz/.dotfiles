@@ -22,7 +22,7 @@ end
 local opts = { noremap = true, silent = true }
 
 -- enable keybinds only for when lsp server available
-local on_attach = function(client)
+local on_attach = function(client, bufnr)
   -- keybind options
   -- set keybinds
   -- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
@@ -48,7 +48,9 @@ local on_attach = function(client)
   -- Show cursor diagnostics
   vim.keymap.set("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
   -- typescript specific keymaps (e.g. rename file and update imports)
-
+  if vim.lsp.inlay_hint then
+    vim.lsp.inlay_hint(bufnr, true)
+  end
   if client.name == "tsserver" then
     vim.keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>", opts) -- rename file and update imports
     vim.keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", opts) -- organize imports (not in youtube nvim video)
@@ -94,9 +96,35 @@ typescript.setup({
       disableSuggestions = true,
     },
   },
+
   server = {
     capabilities = capabilities,
     on_attach = on_attach,
+    settings = {
+      -- specify some or all of the following settings if you want to adjust the default behavior
+      javascript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+      typescript = {
+        inlayHints = {
+          includeInlayEnumMemberValueHints = true,
+          includeInlayFunctionLikeReturnTypeHints = true,
+          includeInlayFunctionParameterTypeHints = true,
+          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = true,
+        },
+      },
+    },
   },
 })
 
@@ -122,8 +150,10 @@ lspconfig["tailwindcss"].setup({
 lspconfig["lua_ls"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  inlay_hint = { enable = true },
   settings = { -- custom settings for lua
     Lua = {
+      hint = { enable = true },
       completion = {
         callSnippet = "Replace",
       },
@@ -220,6 +250,8 @@ lspconfig["jsonls"].setup({
     },
   },
 })
+
+-- setup your lsp servers as usual
 
 lspconfig.yamlls.setup({
   on_attach = on_attach,
