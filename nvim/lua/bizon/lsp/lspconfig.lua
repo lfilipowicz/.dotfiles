@@ -48,9 +48,9 @@ local on_attach = function(client, bufnr)
   -- Show cursor diagnostics
   vim.keymap.set("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
   -- typescript specific keymaps (e.g. rename file and update imports)
-  if vim.lsp.inlay_hint then
-    vim.lsp.inlay_hint(bufnr, true)
-  end
+  -- if vim.lsp.inlay_hint then
+  --   vim.lsp.inlay_hint(bufnr, true)
+  -- end
   if client.name == "tsserver" then
     vim.keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>", opts) -- rename file and update imports
     vim.keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", opts) -- organize imports (not in youtube nvim video)
@@ -58,7 +58,6 @@ local on_attach = function(client, bufnr)
   end
 
   if client.name == "rust_analyzer" then
-    vim.lsp.codelens.refresh()
     vim.keymap.set("n", "<leader>ra", ":RustHoverActions<CR>", opts) -- rename file and update imports
   end
 end
