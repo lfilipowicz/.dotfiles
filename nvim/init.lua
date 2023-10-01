@@ -13,6 +13,10 @@ vim.opt.rtp:prepend(lazypath)
 require("bizon.options")
 
 require("lazy").setup({
+
+  change_detection = {
+    notify = false,
+  },
   spec = {
     -- add LazyVim and import its plugins
     -- { "LazyVim/LazyVim", import = "lazyvim.plugins" },
@@ -22,6 +26,10 @@ require("lazy").setup({
     -- { import = "lazyvim.plugins.extras.ui.mini-animate" },
     -- import/override with your plugins
     { import = "plugins" },
+  },
+  checker = {
+    enabled = true,
+    notify = false,
   },
 })
 
