@@ -11,9 +11,6 @@ return {
       create.setup(opts)
       create.show()
     end,
-    opts = function()
-      return { null_ls = { enabled = true, name = "crates.nvim" } }
-    end,
   },
   -- {
   --   "rust-lang/rust.vim",
