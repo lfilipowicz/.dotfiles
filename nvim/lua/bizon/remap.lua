@@ -12,7 +12,10 @@ nnoremap("<leader>pv", ":Explore<cr>", opts)
 --- telescope
 nnoremap("<leader>fF", "<cmd>lua require('telescope.builtin').git_files({hidden = true})<cr>", opts)
 nnoremap("<leader>ff", "<cmd>lua require('telescope.builtin').find_files({hidden = true})<cr>", opts)
-nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+-- nnoremap("<leader>fg", "<cmd>lua require('telescope.builtin').live_grep()<cr>", opts)
+vim.keymap.set("n", "<leader>fg", function()
+  require("telescope.builtin").live_grep({})
+end)
 nnoremap("<leader>fp", "<cmd>lua require'bizon.telescope-conf'.project_files()<cr>", opts)
 nnoremap("<leader>fG", function()
   require("telescope.builtin").grep_string({ search = vim.fn.input("Grep |> ") })
@@ -84,19 +87,6 @@ nnoremap("n", "nzzzv", opts)
 nnoremap("Q", "<nop>", opts)
 
 nnoremap("<leader>rt", "<cmd>:RustRunnables<cr>", opts)
-
-local mark = require("harpoon.mark")
-local ui = require("harpoon.ui")
-
-vim.keymap.set("n", "<leader>a", mark.add_file)
-vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
-
-vim.keymap.set("n", "<C-n>", function()
-  ui.nav_next()
-end)
-vim.keymap.set("n", "<C-n>", function()
-  ui.nav_prev()
-end)
 
 vim.keymap.set("n", "<leader>lf", "<cmd>Lf<cr>")
 
