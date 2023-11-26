@@ -18,4 +18,4 @@ vim.g.syntax_on = true
 
 -- vim.api.nvim_command("colorscheme catppuccin-frappe")
 -- vim.api.nvim_command("colorscheme catppuccin-frappe")
-vim.api.nvim_command("colorscheme catppuccin-frappe")
+vim.api.nvim_command("colorscheme catppuccin-macchiato")

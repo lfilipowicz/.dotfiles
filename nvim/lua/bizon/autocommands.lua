@@ -12,20 +12,12 @@ vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-
-  pattern = { "*tmux.conf" },
-  callback = function()
-    vim.cmd("!tmux source <afile><CR>")
-  end,
-})
-
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  pattern = { "*.rs" },
-  callback = function()
-    vim.lsp.codelens.refresh()
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+--   pattern = { "*.rs" },
+--   callback = function()
+--     vim.lsp.codelens.refresh()
+--   end,
+-- })
 
 -- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 --   pattern = { "*" },

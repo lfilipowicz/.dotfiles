@@ -1,32 +1,8 @@
 return {
   "nvim-lua/plenary.nvim",
-  "nvim-tree/nvim-web-devicons",
+  { "nvim-tree/nvim-web-devicons", lazy = true },
+  "sindrets/diffview.nvim",
   "neovim/nvim-lspconfig",
-  {
-    "nvim-neorg/neorg",
-    run = ":Neorg sync-parsers", -- This is the important bit!
-    config = function()
-      require("neorg").setup({
-        load = {
-          ["core.defaults"] = {},
-          ["core.concealer"] = {
-            config = { icon_preset = "diamond" },
-          },
-          ["core.dirman"] = {
-            config = {
-              workspaces = {
-                travel = "~/notes/travel",
-                work = "~/notes/work",
-                home = "~/notes/home",
-              },
-              default_workspace = "work",
-            },
-          },
-        },
-        -- configuration here
-      })
-    end,
-  },
   {
     "glepnir/lspsaga.nvim",
     keys = {
@@ -64,7 +40,6 @@ return {
   "hrsh7th/cmp-nvim-lua",
   "hrsh7th/cmp-buffer",
   "saadparwaiz1/cmp_luasnip",
-  "hrsh7th/cmp-nvim-lsp-signature-help",
   "onsails/lspkind-nvim",
   {
     "nvim-lualine/lualine.nvim",
@@ -76,10 +51,6 @@ return {
   { "catppuccin/nvim", as = "catppuccin" },
   "L3MON4D3/LuaSnip",
   "rafamadriz/friendly-snippets",
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-  "nvim-treesitter/nvim-treesitter-context",
-  "nvim-lua/popup.nvim",
-  "JoosepAlviste/nvim-ts-context-commentstring",
   -- GIT
   "lewis6991/gitsigns.nvim",
   {
@@ -92,30 +63,26 @@ return {
       })
     end,
   },
-  "windwp/nvim-autopairs", -- autoclose parens, brackets, quotes, etc...0
   -- formatting & linting
   "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
-  "ThePrimeagen/harpoon",
+  {
+    "ThePrimeagen/harpoon",
+    config = function()
+      local mark = require("harpoon.mark")
+      local ui = require("harpoon.ui")
+      vim.keymap.set("n", "<leader>a", mark.add_file)
+      vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
+      vim.keymap.set("n", "<C-n>", function()
+        ui.nav_next()
+      end)
+      vim.keymap.set("n", "<C-n>", function()
+        ui.nav_prev()
+      end)
+    end,
+  },
   "mbbill/undotree",
   "tpope/vim-fugitive",
   "tpope/vim-commentary",
-  { "akinsho/toggleterm.nvim", version = "*", config = true },
-  {
-    "lmburns/lf.nvim",
-    config = function()
-      -- This feature will not work if the plugin is lazy-loaded
-      vim.g.lf_netrw = 1
-
-      require("lf").setup({
-        escape_quit = false,
-        border = "rounded",
-        -- highlights = {FloatBorder = {guifg = require("kimbox.palette").colors.magenta}}
-      })
-
-      vim.keymap.set("n", "<C-o>", ":Lf<CR>")
-    end,
-    requires = { "plenary.nvim", "toggleterm.nvim" },
-  },
   {
     "ThePrimeagen/git-worktree.nvim",
     config = function()

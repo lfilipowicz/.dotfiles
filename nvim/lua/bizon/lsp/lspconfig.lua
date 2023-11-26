@@ -204,8 +204,8 @@ lspconfig["phpactor"].setup({
 lspconfig["graphql"].setup({
   on_attach,
   capabilities,
-  filetypes = { "graphql" },
-  root_dir = util.root_pattern(".graphql.config.*", "graphql.config.*"),
+  filetypes = { "typescript", "typescriptreact", "graphql" },
+  root_dir = util.root_pattern(".git", ".graphqlrc*", ".graphql.config.*", "graphql.config.*"),
 })
 
 lspconfig["jsonls"].setup({

@@ -6,7 +6,7 @@ end
 plugin.setup({
   options = {
     icons_enabled = true,
-    theme = "catppuccin",
+    theme = "auto",
     component_separators = { left = "", right = "" },
     section_separators = { left = "", right = "" },
     disabled_filetypes = { "alpha", "dashboard", "Outline" },
@@ -22,8 +22,9 @@ plugin.setup({
   sections = {
     lualine_a = { "mode" },
     lualine_b = { "branch", "diff", "diagnostics" },
-    lualine_c = {},
+    lualine_c = { { "filename", path = 1, file_status = true } },
     lualine_x = {
+      "filetype",
       "encoding",
       {
         "fileformat",
@@ -33,15 +34,18 @@ plugin.setup({
           mac = "", -- e711
         },
       },
-      "filetype",
     },
-    lualine_y = { "progress" },
-    lualine_z = { "location" },
+    lualine_y = {
+      "progress",
+    },
+    lualine_z = {
+      "location",
+    },
   },
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {},
+    lualine_c = { { "filename", path = 3, file_status = true } },
     lualine_x = { "location" },
     lualine_y = {},
     lualine_z = {},
