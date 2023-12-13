@@ -95,3 +95,7 @@ if vim.lsp.inlay_hint then
     vim.lsp.inlay_hint(0, nil)
   end, { desc = "Toggle Inline Hints" })
 end
+
+vim.keymap.set("n", "<leader>fc", function()
+  require("conform").format()
+end)

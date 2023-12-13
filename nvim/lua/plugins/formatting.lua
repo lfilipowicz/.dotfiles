@@ -16,13 +16,15 @@ return {
         json = { "prettier" },
         yaml = { "prettier" },
         markdown = { "prettier" },
+        go = { "goimports", "gofumpt" },
         graphql = { "prettier" },
       },
+      notify_on_error = true,
       format_on_save = {
         -- These options will be passed to conform.format()
-        -- timeout_ms = 500,
+        timeout_ms = 500,
         lsp_fallback = true,
-        async = false,
+        async = true,
       },
     })
   end,

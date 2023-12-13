@@ -35,7 +35,7 @@ require("lazy").setup({
 
 require("bizon.keymap")
 require("bizon.autocommands")
-require("bizon.lsp.cmp")
+-- require("bizon.lsp.cmp")
 require("bizon.lsp.lspconfig")
 require("bizon.remap")
 require("bizon.colors")
