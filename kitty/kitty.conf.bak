@@ -7,6 +7,9 @@
 #: characters.
 
  font_family     JetBrains Mono 
+# font_family     Hack Nerd Font Mono 
+# font_family     JetBrainsMono Nerd Font Mono
+
 # font_family     Dank Mono 
 # bold_font        auto
 # italic_font      auto
@@ -1460,7 +1463,7 @@
 #: resizable on macOS. Changing this option by reloading the config
 #: will only affect newly created OS windows.
 
-# macos_thicken_font 0
+# macos_thicken_font 0.75 
 
 #: Draw an extra border around the font with the given width, to
 #: increase legibility at small font sizes on macOS. For example, a
@@ -1537,10 +1540,11 @@
 
 #: Finally, you can use raw system key codes to map keys, again only
 #: for keys that are not known as GLFW keys. To see the system key
-#: code for a key, start kitty with the kitty --debug-input option,
+#: code for a key, start kitt with the kitty --debug-input option,
 #: kitty will output some debug text for every key event. In that text
 #: look for native_code, the value of that becomes the key name in the
-#: shortcut. For example:
+#: shortcut. For examle:
+
 
 #: .. code-block:: none
 
@@ -1581,18 +1585,18 @@
 
 #: For example::
 
-#:     map ctrl+f>2 set_font_size 20
+#: map ctrl+f>2 set_font_size 14 
 
 #: The full list of actions that can be mapped to key presses is
 #: available here <https://sw.kovidgoyal.net/kitty/actions/>.
 
-# kitty_mod ctrl+shift
+#kitty_mod ctrl+shift
 
 #: Special modifier key alias for default shortcuts. You can change
 #: the value of this option to alter all default shortcuts that use
 #: kitty_mod.
 
-# clear_all_shortcuts no
+#clear_all_shortcuts no
 
 #: Remove all shortcut definitions up to this point. Useful, for
 #: instance, to remove the default shortcuts.
@@ -1914,12 +1918,11 @@
 
 #: New tab
 
-# map kitty_mod+t new_tab
-# map cmd+t       new_tab
+map kitty_mod+t new_tab
 
 #: Close tab
 
-# map kitty_mod+q close_tab
+ map kitty_mod+q close_tab
 # map cmd+w       close_tab
 
 #: Close OS window
@@ -2240,3 +2243,63 @@
 #: }}}
 
 #: }}}
+
+# My mappings xxd -psg  - 46a0 is \x46\xa0
+
+# Open lazygit
+map super+g send_text all \x02\x67
+
+# Toggle the zoom state of the current tmux pane
+map cmd+z send_text all \x02\x7a
+
+#save file - ESC :w Enter
+map super+s send_text all \x1b\x3a\x77\x0a
+#save all files - ESC :w Enter
+map super+shift+s send_text all \x1b\x3a\x77\x61\x0a
+
+# kill pane <C-b> + x
+map super+w send_text all \x02\x78 
+
+# Detach the current tmux client
+map super+d send_text all \x02\x64
+
+# rename tab <C-b> + ,
+map super+, send_text all \x02\x2c 
+
+# Select a new tmux session for the attached client interactively
+map super+r send_text all \x02\x240
+map super+k send_text all \x02\x73
+
+# Split the current pane into two, left and right
+map cmd+shift+n send_text all \x02\x25
+
+# Split the current pane into two, top and bottom.
+map cmd+n send_text all \x02\x22
+
+# new window <C-b> + c
+map cmd+t send_text all \x02\x63
+
+# new window <C-b> + f
+map cmd+f send_text all \x02\x66
+
+# finde session <C-b> + f
+map cmd+shift+f send_text all \x02\x46\xa0
+
+# Break the current tmux pane out of the tmux window
+map cmd+shift+t send_text all \x02\x21
+
+map super+1 send_text all \x02\x31
+map super+2 send_text all \x02\x32
+map super+3 send_text all \x02\x33
+map super+4 send_text all \x02\x34
+map super+5 send_text all \x02\x35
+map super+6 send_text all \x02\x36
+map super+7 send_text all \x02\x37
+map super+8 send_text all \x02\x38
+map super+9 send_text all \x02\x39
+
+
+# BEGIN_KITTY_THEME
+# Catppuccin-Macchiato
+# include current-theme.conf
+# END_KITTY_THEME
