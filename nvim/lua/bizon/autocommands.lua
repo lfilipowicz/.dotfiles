@@ -1,16 +1,18 @@
 -- HIGHLIGHTS YANKED WORDS
 vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+  desc = "Highlight when yanking(copying) text",
+  group = vim.api.nvim_create_augroup("highlight-yank", { clear = true }),
   callback = function()
-    vim.highlight.on_yank({ higroup = "Visual", timeout = 200 })
+    vim.highlight.on_yank()
   end,
 })
 
--- FIX AUTOCOMANDS
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-  callback = function()
-    vim.cmd("set formatoptions-=cro")
-  end,
-})
+-- -- FIX AUTOCOMANDS
+-- vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+--   callback = function()
+--     vim.cmd("set formatoptions-=cro")
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",

@@ -2,16 +2,21 @@ return {
   "nvim-lua/plenary.nvim",
   { "nvim-tree/nvim-web-devicons", lazy = true },
   "sindrets/diffview.nvim",
-  "neovim/nvim-lspconfig",
+  { -- LSP Configuration & Plugins
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      -- Automatically install LSPs and related tools to stdpath for neovim
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
+      "WhoIsSethDaniel/mason-tool-installer.nvim",
+
+      -- Useful status updates for LSP.
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      { "j-hui/fidget.nvim", opts = {} },
+    },
+  },
   {
     "glepnir/lspsaga.nvim",
-    keys = {
-      {
-        "K",
-        "<cmd>Lspsaga hover_doc<cr>",
-        desc = "LSPSaga hover doc",
-      },
-    },
 
     config = function()
       require("lspsaga").setup({
@@ -95,6 +100,12 @@ return {
           { name = "crates" },
         }),
       })
+      cmp.setup.cmdline("/", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
     end,
   },
   {
@@ -139,22 +150,55 @@ return {
       nvim_tmux_nav.setup({
         disable_when_zoomed = true, -- defaults to false
       })
+
+      vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
+      vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
+      vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
+      vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
     end,
   },
   -- formatting & linting
   "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
   {
     "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { { "nvim-lua/plenary.nvim" } },
     config = function()
-      local mark = require("harpoon.mark")
-      local ui = require("harpoon.ui")
-      vim.keymap.set("n", "<leader>a", mark.add_file)
-      vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
-      vim.keymap.set("n", "<C-n>", function()
-        ui.nav_next()
+      local harpoon = require("harpoon")
+
+      harpoon:setup({
+        settings = {
+          sync_on_ui_close = true,
+        },
+      })
+      -- REQUIRED
+
+      vim.keymap.set("n", "<leader>a", function()
+        harpoon:list():append()
+      end, { desc = "Harpoon [A]dd file" })
+      vim.keymap.set("n", "<C-e>", function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end, { desc = "Harpoon Open Quick Menu" })
+
+      vim.keymap.set("n", "<C-h>", function()
+        harpoon:list():select(1)
+      end)
+      vim.keymap.set("n", "<C-t>", function()
+        harpoon:list():select(2)
       end)
       vim.keymap.set("n", "<C-n>", function()
-        ui.nav_prev()
+        harpoon:list():select(3)
+      end)
+      vim.keymap.set("n", "<C-s>", function()
+        harpoon:list():select(4)
+      end)
+
+      -- Toggle previous & next buffers stored within Harpoon list
+      vim.keymap.set("n", "<C-p>", function()
+        harpoon:list():prev()
+      end)
+      vim.keymap.set("n", "<C-n>", function()
+        harpoon:list():next()
       end)
     end,
   },
@@ -169,15 +213,16 @@ return {
     requires = { "telescope" },
     keys = {
       {
-        "<leader>fw",
+        "<leader>gwl",
         "<cmd>lua require('telescope').extensions.git_worktree.git_worktrees()<cr>",
-        desc = "Git Worktree List",
+        desc = "[G]it [W]orktree [L]ist",
       },
       {
-        "<leader>fW",
+        "<leader>gwc",
         "<cmd>lua require('telescope').extensions.git_worktree.create_git_worktree()<cr>",
-        desc = "Git Worktree Create",
+        desc = "[G]it [W]orktree [C]reate",
       },
     },
   },
+  "ThePrimeagen/vim-be-good",
 }

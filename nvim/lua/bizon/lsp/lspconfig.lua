@@ -25,8 +25,7 @@ local opts = { noremap = true, silent = true }
 local on_attach = function(client, bufnr)
   -- keybind options
   -- set keybinds
-  -- vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- show documentation for what is under cursor
-  vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<CR>", opts) -- show definition, references
+  vim.keymap.set("n", "gr", "<cmd>Lspsaga finder ref+def<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts) -- show definition, references
   vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
   vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<cr>", opts) -- see definition and make edits in window
@@ -37,29 +36,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
   vim.keymap.set("n", "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
   vim.keymap.set("n", "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-  vim.keymap.set("n", "<leader>o", "<cmd>Lspsaga outline<CR>", opts) -- see outline on right hand side
-  vim.keymap.set("n", "<leader>vd", "<cmd> lua vim.diagnostic.open_float()<cr>", opts)
-
-  vim.keymap.set("n", "<leader>sl", "<cmd>Lspsaga show_line_diagnostics<CR>")
-  -- Show buffer diagnostics
-  vim.keymap.set("n", "<leader>sb", "<cmd>Lspsaga show_buf_diagnostics<CR>", opts)
-  -- Show workspace diagnostics
-  vim.keymap.set("n", "<leader>sw", "<cmd>Lspsaga show_workspace_diagnostics<CR>", opts)
-  -- Show cursor diagnostics
-  vim.keymap.set("n", "<leader>sc", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
-  -- typescript specific keymaps (e.g. rename file and update imports)
-  -- if vim.lsp.inlay_hint then
-  --   vim.lsp.inlay_hint(bufnr, true)
-  -- end
-  if client.name == "tsserver" then
-    vim.keymap.set("n", "<leader>rf", ":TypescriptRenameFile<CR>", opts) -- rename file and update imports
-    vim.keymap.set("n", "<leader>oi", ":TypescriptOrganizeImports<CR>", opts) -- organize imports (not in youtube nvim video)
-    vim.keymap.set("n", "<leader>ru", ":TypescriptRemoveUnused<CR>", opts) -- remove unused variables (not in youtube nvim video)
-  end
-
-  if client.name == "rust_analyzer" then
-    vim.keymap.set("n", "<leader>ra", ":RustHoverActions<CR>", opts) -- rename file and update imports
-  end
+  vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
@@ -141,7 +118,28 @@ lspconfig["eslint"].setup({
 -- configure tailwindcss server
 lspconfig["tailwindcss"].setup({
   capabilities = capabilities,
+  filetypes = {
+    "css",
+    "scss",
+    "sass",
+    "postcss",
+    "html",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "svelte",
+    "templ",
+  },
   on_attach = on_attach,
+  settings = {
+    includeLanguages = { templ = "html" },
+  },
+  init_options = {
+    userLanguages = {
+      templ = "html",
+    },
+  },
   experimental = {
     classRegex = {
       "clsx\\(([^)]*)\\)",
@@ -157,15 +155,14 @@ lspconfig["lua_ls"].setup({
   inlay_hint = { enable = true },
   settings = { -- custom settings for lua
     Lua = {
+      runtime = { version = "LuaJIT" },
       hint = { enable = true },
       completion = {
         callSnippet = "Replace",
       },
       -- make the language server recognize "vim" global
-      diagnostics = {
-        globals = { "vim" },
-      },
       workspace = {
+        checkThirdParty = false,
         -- make language serv fger aware of runtime files
         library = {
           [vim.fn.expand("$VIMRUNTIME/lua")] = true,
@@ -176,17 +173,6 @@ lspconfig["lua_ls"].setup({
   },
 })
 
--- lspconfig.sqlls.setup({ on_attach, capabilities })
-
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = "sh",
-  callback = function()
-    vim.lsp.start({
-      name = "bash-language-server",
-      cmd = { "bash-language-server", "start" },
-    })
-  end,
-})
 lspconfig["phpactor"].setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -276,11 +262,6 @@ vim.diagnostic.config({
 --   capabilities = capabilities,
 -- })
 
-local M = {}
-
-M.on_attach = on_attach
-M.capabilities = capabilities
-
 lspconfig.gopls.setup({
 
   on_attach = on_attach,
@@ -325,5 +306,21 @@ lspconfig.gopls.setup({
     },
   },
 })
+
+lspconfig.templ.setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+})
+
+lspconfig.htmx.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  filetypes = { "html", "templ" },
+})
+
+local M = {}
+
+M.on_attach = on_attach
+M.capabilities = capabilities
 
 return M

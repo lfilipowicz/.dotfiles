@@ -35,6 +35,7 @@ return {
         "vim",
         "vimdoc",
         "yaml",
+        "templ",
       },
 
       incremental_selection = {
@@ -51,6 +52,7 @@ return {
       },
       highlight = {
         enable = true,
+        additional_vim_regex_highlighting = false,
       },
     })
     require("ts_context_commentstring").setup({

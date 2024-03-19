@@ -16,7 +16,6 @@ local options = {
   number = true,
   relativenumber = true,
   ruler = false,
-  -- scrolloff = 8,
   showcmd = false,
   showmode = false,
   showtabline = 0,
@@ -26,7 +25,9 @@ local options = {
   splitbelow = true,
   splitright = true,
   swapfile = false,
-  -- timeoutlen = 500,
+  -- Decrease update time
+  updatetime = 250,
+  timeoutlen = 300,
   undodir = os.getenv("HOME") .. "/.vim/undodir",
   undofile = true,
   -- winbar = "%{%v:lua.require'nvim-navic'.get_location()%} %=%m %f",
@@ -40,8 +41,12 @@ local options = {
   -- ch = 0, -- not working without hit-enter prompt in netrw :(
   backspace = { "indent", "eol", "start" },
   termguicolors = true,
-  updatetime = 50,
   cursorline = true,
+  breakindent = true,
+  list = true,
+  listchars = { tab = "» ", trail = "·", nbsp = "␣" },
+  inccommand = "split",
+  scrolloff = 10,
 }
 
 local globals = {
@@ -70,3 +75,9 @@ vim.g.rustfmt_fail_silently = 0
 vim.g.netrw_keepdir = 0
 -- vim.g.netrw_localcopydircmd = "cp -r"
 vim.g.netrw_silent = 1
+
+vim.filetype.add({
+  extension = {
+    templ = "templ",
+  },
+})
