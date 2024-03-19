@@ -1,4 +1,7 @@
 local wezterm = require("wezterm")
+local action = wezterm.action
+local KeyMultiple = action.Multiple
+local tmux_leader = { key = "b", mods = "CTRL" }
 
 local config = wezterm.config_builder()
 config.color_scheme = "Catppuccin Macchiato"
@@ -7,37 +10,46 @@ config.font = wezterm.font("JetBrains Mono")
 config.font_size = 14
 config.hide_tab_bar_if_only_one_tab = true
 
+config.window_padding = {
+	left = 2,
+	right = 5,
+	top = 2,
+	bottom = 0,
+}
+
+config.window_decorations = "RESIZE"
+
 config.keys = {
 
-	-- INFO: find project <C-b> + f
+	-- INFO: find project
 	{
 		key = "f",
 		mods = "CMD",
-		action = wezterm.action({ SendString = "\x02\x66" }),
+		action = KeyMultiple({ action.SendKey(tmux_leader), action.SendKey({ key = "f" }) }),
 	},
-	-- INFO: # create tmux new pane <C-b> + t
+	-- INFO: # create tmux new pane
 	{
 		key = "t",
 		mods = "CMD",
-		action = wezterm.action({ SendString = "\x02\x63" }),
+		action = KeyMultiple({ action.SendKey(tmux_leader), action.SendKey({ key = "c" }) }),
 	},
 	-- INFO:  Select a tmux session for the attached client interactively
 	{
 		key = "k",
 		mods = "CMD",
-		action = wezterm.action({ SendString = "\x02\x73" }),
+		action = KeyMultiple({ action.SendKey(tmux_leader), action.SendKey({ key = "s" }) }),
 	},
 	-- INFO: Open lazygit
 	{
 		key = "g",
 		mods = "CMD",
-		action = wezterm.action({ SendString = "\x02\x67" }),
+		action = KeyMultiple({ action.SendKey(tmux_leader), action.SendKey({ key = "g" }) }),
 	},
 	-- INFO:  Split the current pane into two, top and bottom.
 	{
 		key = "n",
 		mods = "CMD",
-		action = wezterm.action({ SendString = "\x02\x22" }),
+		action = KeyMultiple({ action.SendKey(tmux_leader), action.SendKey({ key = '"' }) }),
 	},
 	-- INFO:  Split the current pane into two, left and right
 	{
