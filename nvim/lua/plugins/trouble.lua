@@ -8,7 +8,7 @@ return {
     { "<leader>xL", "<cmd>TroubleToggle loclist<cr>", desc = "Location List (Trouble)" },
     { "<leader>xQ", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix List (Trouble)" },
     {
-      "[q",
+      "[t",
       function()
         if require("trouble").is_open() then
           require("trouble").previous({ skip_groups = true, jump = true })
@@ -16,10 +16,10 @@ return {
           vim.cmd.cprev()
         end
       end,
-      desc = "Previous trouble/quickfix item",
+      desc = "Go to previous [T]rouble message",
     },
     {
-      "]q",
+      "]t",
       function()
         if require("trouble").is_open() then
           require("trouble").next({ skip_groups = true, jump = true })
@@ -27,7 +27,7 @@ return {
           vim.cmd.cnext()
         end
       end,
-      desc = "Next trouble/quickfix item",
+      desc = "Go to next [T]rouble message",
     },
   },
 }

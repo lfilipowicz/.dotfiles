@@ -19,29 +19,43 @@ if not typescript_setup then
   print("error typescript")
   return
 end
-local opts = { noremap = true, silent = true }
 
 -- enable keybinds only for when lsp server available
 local on_attach = function(client, bufnr)
   -- keybind options
   -- set keybinds
-  vim.keymap.set("n", "gr", "<cmd>Lspsaga finder ref+def<CR>", opts) -- show definition, references
-  vim.keymap.set("n", "gR", "<cmd>lua vim.lsp.buf.references()<CR>", opts) -- show definition, references
-  vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- got to declaration
-  vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<cr>", opts) -- see definition and make edits in window
-  vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts) -- go to implementation
-  vim.keymap.set("n", "<leader>la", "<cmd>Lspsaga code_action<CR>", opts) -- see available code actions
-  vim.keymap.set("n", "<leader>lr", "<cmd>Lspsaga rename<CR>", opts) -- smart rename
-  vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- show  diagnostics for line
-  vim.keymap.set("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- show diagnostics for cursor
-  vim.keymap.set("n", "<leader>lk", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- jump to previous diagnostic in buffer
-  vim.keymap.set("n", "<leader>lj", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- jump to next diagnostic in buffer
-  vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
+  local opts = { noremap = true, silent = true }
+  local map = function(keys, func, desc)
+    vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. desc })
+  end
+  map("K", vim.lsp.buf.hover, "Hover Documentation")
+  map("H", vim.lsp.buf.signature_help, "Signature Help")
+  map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+  map("gR", vim.lsp.buf.references, "[G]oto [R]eferences List")
+  map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
+  map("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+  map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
+  map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+  map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+  map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
+
+  -- if client and client.server_capabilities.documentHighlightProvider then
+  --   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  --     buffer = bufnr,
+  --     callback = vim.lsp.buf.document_highlight,
+  --   })
+
+  --   vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+  --     buffer = bufnr,
+  --     callback = vim.lsp.buf.clear_references,
+  --   })
+  -- end
 end
 
 -- used to enable autocompletion (assign to every lsp server config)
-local capabilities = cmp_nvim_lsp.default_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 -- (not in youtube nvim video)
@@ -185,7 +199,7 @@ lspconfig["phpactor"].setup({
 lspconfig["graphql"].setup({
   on_attach,
   capabilities,
-  filetypes = { "typescript", "typescriptreact", "graphql" },
+  filetypes = { "graphql" },
   root_dir = util.root_pattern(".git", ".graphqlrc*", ".graphql.config.*", "graphql.config.*"),
 })
 

@@ -16,96 +16,18 @@ return {
     },
   },
   {
-    "glepnir/lspsaga.nvim",
-
-    config = function()
-      require("lspsaga").setup({
-
-        -- keybinds for navigation in lspsaga window
-        move_in_saga = { prev = "<C-k>", next = "<C-j>" },
-        -- use enter to open file with finder
-        -- use enter to open file with definition preview
-        ui = {
-          border = "single",
-        },
-        lightbulb = { enable = false },
-      })
-    end,
-    event = "LspAttach",
-    dependencies = {
-      { "nvim-tree/nvim-web-devicons" },
-      --Please make sure you install markdown and markdown_inline parser
-      { "nvim-treesitter/nvim-treesitter" },
-    },
-  },
-  {
     "hrsh7th/nvim-cmp",
     dependencies = {
-      { "hrsh7th/cmp-cmdline" },
-      { "hrsh7th/cmp-path" },
-      { "hrsh7th/cmp-nvim-lsp" },
-      { "hrsh7th/cmp-nvim-lua" },
-      { "hrsh7th/cmp-buffer" },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "onsails/lspkind-nvim" },
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "saadparwaiz1/cmp_luasnip",
+      "onsails/lspkind-nvim",
+      { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
     },
     config = function()
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
-      local lspkind = require("lspkind")
-      require("luasnip.loaders.from_vscode").lazy_load()
-      cmp.setup({
-
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body) -- For `luasnip` users.
-          end,
-        },
-        completion = {
-          completeopt = "menu,menuone,preview,noselect",
-        },
-        formatting = {
-          fields = { "abbr", "kind", "menu" },
-          format = lspkind.cmp_format({
-            -- mode = "symbol_text",
-            maxwidth = 50,
-            elipsis_char = "...",
-            -- before = function(entry, vim_item)
-            --   vim_item.menu = source_maps[entry.source.name]
-            --   return vim_item
-            -- end,
-            before = require("tailwindcss-colorizer-cmp").formatter,
-          }),
-        },
-        confirm_opts = {
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-k>"] = cmp.mapping.select_prev_item(),
-          ["<C-j>"] = cmp.mapping.select_next_item(),
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<C-e>"] = cmp.mapping.abort(),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-        }),
-        sources = cmp.config.sources({
-          { name = "nvim_lsp" },
-          { name = "luasnip" }, -- For luasnip users.
-          { name = "buffer" },
-          { name = "path" },
-          { name = "crates" },
-        }),
-      })
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
+      require("bizon.lsp.cmp")
     end,
   },
   {
@@ -143,19 +65,19 @@ return {
   -- GIT
   "lewis6991/gitsigns.nvim",
   {
-    "alexghergh/nvim-tmux-navigation",
-    config = function()
-      local nvim_tmux_nav = require("nvim-tmux-navigation")
-
-      nvim_tmux_nav.setup({
-        disable_when_zoomed = true, -- defaults to false
-      })
-
-      vim.keymap.set("n", "<C-h>", nvim_tmux_nav.NvimTmuxNavigateLeft)
-      vim.keymap.set("n", "<C-j>", nvim_tmux_nav.NvimTmuxNavigateDown)
-      vim.keymap.set("n", "<C-k>", nvim_tmux_nav.NvimTmuxNavigateUp)
-      vim.keymap.set("n", "<C-l>", nvim_tmux_nav.NvimTmuxNavigateRight)
-    end,
+    "christoomey/vim-tmux-navigator",
+    cmd = {
+      "TmuxNavigateLeft",
+      "TmuxNavigateDown",
+      "TmuxNavigateUp",
+      "TmuxNavigateRight",
+    },
+    keys = {
+      { "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
+      { "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
+      { "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
+      { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
+    },
   },
   -- formatting & linting
   "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
@@ -174,7 +96,7 @@ return {
       -- REQUIRED
 
       vim.keymap.set("n", "<leader>a", function()
-        harpoon:list():append()
+        harpoon:list():add()
       end, { desc = "Harpoon [A]dd file" })
       vim.keymap.set("n", "<C-e>", function()
         harpoon.ui:toggle_quick_menu(harpoon:list())
@@ -225,4 +147,20 @@ return {
     },
   },
   "ThePrimeagen/vim-be-good",
+  {
+    "stevearc/oil.nvim",
+    opts = {},
+    config = function()
+      require("oil").setup({
+        columns = { "icon" },
+        keymaps = { ["C-h"] = false },
+        view_options = { show_hidden = true },
+      })
+    end,
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+      { "-", "<CMD>Oil<CR>", { desc = "Open parent directory" } },
+    },
+  },
 }
