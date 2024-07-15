@@ -1,4 +1,5 @@
 return {
+  "echasnovski/mini.icons",
   "nvim-lua/plenary.nvim",
   { "nvim-tree/nvim-web-devicons", lazy = true },
   "sindrets/diffview.nvim",
@@ -24,7 +25,7 @@ return {
       "hrsh7th/cmp-buffer",
       "saadparwaiz1/cmp_luasnip",
       "onsails/lspkind-nvim",
-      { "L3MON4D3/LuaSnip", build = "make install_jsregexp" },
+      { "L3MON4D3/LuaSnip", dependencies = { "rafamadriz/friendly-snippets" }, build = "make install_jsregexp" },
     },
     config = function()
       require("bizon.lsp.cmp")

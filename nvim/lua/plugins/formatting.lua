@@ -20,7 +20,7 @@ return {
         graphql = { "prettierd" },
       },
       notify_on_error = true,
-      format_on_save = {
+      format_after_save = {
         -- These options will be passed to conform.format()
         timeout_ms = 500,
         lsp_fallback = true,

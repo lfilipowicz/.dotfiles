@@ -18,16 +18,16 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Jump Down" })
 vim.keymap.set("n", "N", "Nzzzv", { noremap = true, silent = true, desc = "Search Previous Result" })
 vim.keymap.set("n", "n", "nzzzv", { noremap = true, silent = true, desc = "Search Next Result" })
 -- nnoremap("Q", "<nop>", opts)
-if vim.lsp.inlay_hint then
-  vim.keymap.set("n", "<leader>uh", function()
-    vim.lsp.inlay_hint(0, nil)
-  end, { desc = "Toggle Inline Hints" })
-end
+-- if vim.lsp.inlay_hint then
+--   vim.keymap.set("n", "<leader>uh", function()
+--     vim.lsp.inlay_hint(0, nil)
+--   end, { desc = "Toggle Inline Hints" })
+-- end
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- quickfix
--- vim.keymap.set("n", "<C-a>", ":cn<CR>", { noremap = true, silent = true, desc = "Quickfix Next Result" })
--- vim.keymap.set("n", "<C-s>", ":cp<CR>", { noremap = true, silent = true, desc = "Quickfix Previous Result" })
+vim.keymap.set("n", "[q", ":cn<CR>", { noremap = true, silent = true, desc = "Quickfix Next Result" })
+vim.keymap.set("n", "]q", ":cp<CR>", { noremap = true, silent = true, desc = "Quickfix Previous Result" })
