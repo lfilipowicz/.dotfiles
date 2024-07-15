@@ -1,4 +1,5 @@
 local wezterm = require("wezterm")
+local mux = wezterm.mux
 local action = wezterm.action
 local KeyMultiple = action.Multiple
 local tmux_leader = { key = "b", mods = "CTRL" }
@@ -9,6 +10,8 @@ config.color_scheme = "Catppuccin Macchiato"
 config.font = wezterm.font("JetBrains Mono")
 config.font_size = 14
 config.hide_tab_bar_if_only_one_tab = true
+
+config.audible_bell = "Disabled"
 
 config.window_padding = {
 	left = 2,
@@ -102,5 +105,10 @@ local panes =
 for index, val in ipairs(panes) do
 	table.insert(config.keys, { key = tostring(index), mods = "CMD", action = wezterm.action({ SendString = val }) })
 end
+
+wezterm.on("gui-startup", function(cmd)
+	local tab, pane, window = mux.spawn_window(cmd or {})
+	window:gui_window():maximize()
+end)
 
 return config
