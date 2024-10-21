@@ -1,8 +1,9 @@
-alias zsh-update-plugins="find "$ZDOTDIR/plugins" -type d -exec test -e '{}/.git' ';' -print0 | xargs -I {} -0 git -C {} pull -q"
+alias v="fd --type f --hidden --follow --exclude .git --exclude dist | fzf-tmux -p --reverse | xargs nvim"
 alias nvimrc='nvim ~/.config/nvim/'
 alias nalacritty='nvim ~/.config/alacritty/alacritty.yml'
 alias nzsh='nvim ~/.config/zsh/.zshrc'
 alias ntmux='nvim ~/.config/tmux/tmux.conf'
+alias fpnpm="jq '.scripts | keys' package.json | jq '.[]' | fzf | xargs pnpm"
 
 # Colorize grep output (good for log files)
 alias grep='grep --color=auto'
@@ -34,3 +35,11 @@ alias lgt="lazygit"
 alias czsh="$HOME/.config/zsh"
 alias cnvim="$HOME/.config/nvim"
 
+
+# finde folders
+alias f='cd $(fd --type d --hidden --exclude .git --exclude node_module --exclude .cache --exclude .npm --exclude .mozilla --exclude .meteor --exclude .nv | fzf)'
+alias fls='cd $(ls | fzf)'
+
+# EZA
+alias l="eza -l --icons --git -a"
+alias lt="eza --tree --level=2 --long --icons --git"
