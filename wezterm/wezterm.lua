@@ -19,7 +19,7 @@ config.window_padding = {
 	top = 2,
 	bottom = 0,
 }
-
+config.max_fps = 120
 config.window_decorations = "RESIZE"
 
 config.keys = {
