@@ -1,5 +1,5 @@
 return {
-  "echasnovski/mini.icons",
+  { "echasnovski/mini.nvim", version = false },
   "nvim-lua/plenary.nvim",
   { "nvim-tree/nvim-web-devicons", lazy = true },
   "sindrets/diffview.nvim",
@@ -10,11 +10,40 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { "j-hui/fidget.nvim", opts = {} },
+      {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+          library = {
+            -- See the configuration section for more details
+            -- Load luvit types when the `vim.uv` word is found
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+          },
+        },
+      },
     },
+  },
+  {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup({
+        lsp_inlay_hints = {
+          only_current_line = false,
+          style = "end-of-line",
+        },
+      })
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
   },
   {
     "hrsh7th/nvim-cmp",
@@ -80,8 +109,6 @@ return {
       { "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
     },
   },
-  -- formatting & linting
-  "jose-elias-alvarez/typescript.nvim", -- additional functionality for typescript server (e.g. rename file & update imports)
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
@@ -147,21 +174,22 @@ return {
       },
     },
   },
-  "ThePrimeagen/vim-be-good",
   {
     "stevearc/oil.nvim",
     opts = {},
     config = function()
       require("oil").setup({
+        default_file_explorer = true,
+        delete_to_trash = true,
         columns = { "icon" },
         keymaps = { ["C-h"] = false },
-        view_options = { show_hidden = true },
+        view_options = { show_hidden = true, natural_order = true },
+        win_options = { wrap = true },
       })
+      vim.keymap.set("n", "<space>-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+      vim.keymap.set("n", "-", require("oil").toggle_float)
     end,
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      { "-", "<CMD>Oil<CR>", { desc = "Open parent directory" } },
-    },
   },
 }

@@ -6,19 +6,19 @@ if not lspconfig_status then
   return
 end
 
--- import cmp-nvim-lsp plugin safely
-local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-if not cmp_nvim_lsp_status then
-  print("error cmp_nvim_lsp_status")
-  return
-end
+-- -- import cmp-nvim-lsp plugin safely
+-- local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+-- if not cmp_nvim_lsp_status then
+--   print("error cmp_nvim_lsp_status")
+--   return
+-- end
 
--- import typescript plugin safely
-local typescript_setup, typescript = pcall(require, "typescript")
-if not typescript_setup then
-  print("error typescript")
-  return
-end
+-- -- import typescript plugin safely
+-- local typescript_setup, typescript = pcall(require, "typescript")
+-- if not typescript_setup then
+--   print("error typescript")
+--   return
+-- end
 
 -- enable keybinds only for when lsp server available
 local on_attach = function(client, bufnr)
@@ -32,7 +32,9 @@ local on_attach = function(client, bufnr)
   map("H", vim.lsp.buf.signature_help, "Signature Help")
   map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   map("gR", vim.lsp.buf.references, "[G]oto [R]eferences List")
-  map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  -- map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  -- map("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [D]efinition")
+  map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
   map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
   map("gi", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
   map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
@@ -55,7 +57,8 @@ end
 
 -- used to enable autocompletion (assign to every lsp server config)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+-- capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+capabilities = vim.tbl_deep_extend("force", capabilities, require("blink.cmp").get_lsp_capabilities())
 
 -- Change the Diagnostic symbols in the sign column (gutter)
 -- (not in youtube nvim video)
@@ -77,43 +80,40 @@ lspconfig["rust_analyzer"].setup({
 lspconfig["html"].setup({
   capabilities = capabilities,
   on_attach = on_attach,
+  filetypes = { "html", "templ" },
 })
 
--- configure typescript server with plugin
-typescript.setup({
+lspconfig["ts_ls"].setup({
+  capabilities = capabilities,
+  on_attach = on_attach,
+  settings = {
+    javascript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = false,
+      },
+    },
+
+    typescript = {
+      inlayHints = {
+        includeInlayEnumMemberValueHints = true,
+        includeInlayFunctionLikeReturnTypeHints = true,
+        includeInlayFunctionParameterTypeHints = true,
+        includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
+        includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+        includeInlayPropertyDeclarationTypeHints = true,
+        includeInlayVariableTypeHints = false,
+      },
+    },
+  },
   init_options = {
     preferences = {
       disableSuggestions = true,
-    },
-  },
-
-  server = {
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-      -- specify some or all of the following settings if you want to adjust the default behavior
-      javascript = {
-        inlayHints = {
-          includeInlayEnumMemberValueHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayVariableTypeHints = true,
-        },
-      },
-      typescript = {
-        inlayHints = {
-          includeInlayEnumMemberValueHints = true,
-          includeInlayFunctionLikeReturnTypeHints = true,
-          includeInlayFunctionParameterTypeHints = true,
-          includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-          includeInlayPropertyDeclarationTypeHints = true,
-          includeInlayVariableTypeHints = true,
-        },
-      },
     },
   },
 })
@@ -156,8 +156,11 @@ lspconfig["tailwindcss"].setup({
   },
   experimental = {
     classRegex = {
-      "clsx\\(([^)]*)\\)",
-      "(?:'|\"|`)([^']*)(?:'|\"|`)",
+      {
+        "clsx\\(([^)]*)\\)",
+        "(?:'|\"|`)([^']*)(?:'|\"|`)",
+      },
+      { "classList.(?:add|remove)\\(([^)]*)\\)", "(?:'|\"|`)([^\"'`]*)(?:'|\"|`)" },
     },
   },
 })
@@ -275,9 +278,14 @@ vim.diagnostic.config({
 --   on_attach = on_attach,
 --   capabilities = capabilities,
 -- })
+--
+
+lspconfig.golangci_lint_ls.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+})
 
 lspconfig.gopls.setup({
-
   on_attach = on_attach,
   capabilities = capabilities,
   cms = { "gopls" },
@@ -306,11 +314,12 @@ lspconfig.gopls.setup({
         rangeVariableTypes = true,
       },
       analyses = {
-        fieldalignment = true,
         nilness = true,
         unusedparams = true,
         unusedwrite = true,
         useany = true,
+        shadow = true,
+        deprecated = true,
       },
       usePlaceholders = true,
       completeUnimported = true,
@@ -321,8 +330,21 @@ lspconfig.gopls.setup({
   },
 })
 
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function()
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      pattern = "*.templ",
+      callback = function()
+        local current_file = vim.fn.expand("%:p")
+        vim.fn.system("templ generate -f " .. current_file)
+      end,
+    })
+  end,
+})
+
 lspconfig.templ.setup({
-  capabilities = capabilities,
+  -- capabilities,
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
   on_attach = on_attach,
 })
 

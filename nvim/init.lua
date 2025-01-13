@@ -11,7 +11,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("bizon.options")
-
 require("lazy").setup({
 
   change_detection = {

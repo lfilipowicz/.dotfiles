@@ -43,3 +43,5 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- vim.cmd[[autocmd BufWritePost *tmux.conf !tmux source <afile>]]
 -- vim.cmd[[autocmd BufWritePost *yabairc !brew services restart yabai]]
 -- vim.cmd[[autocmd BufWritePost *skhdrc !brew services restart skhd]]
+--
+-- vim.api.nvim_create_autocmd({ "BufWritePre" }, { pattern = { "*.templ" }, callback = vim.lsp.buf.format })

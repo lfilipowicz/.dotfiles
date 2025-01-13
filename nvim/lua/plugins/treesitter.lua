@@ -4,6 +4,7 @@ return {
   event = { "BufReadPost", "BufNewFile", "BufWritePre" },
   dependencies = {
     "JoosepAlviste/nvim-ts-context-commentstring",
+    "vrischmann/tree-sitter-templ",
   },
   config = function()
     require("nvim-treesitter.configs").setup({
@@ -38,15 +39,15 @@ return {
         "templ",
       },
 
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "<C-space>",
-          node_incremental = "<C-space>",
-          scope_incremental = false,
-          node_decremental = "<bs>",
-        },
-      },
+      -- incremental_selection = {
+      --   enable = false,
+      --   keymaps = {
+      --     init_selection = "<C-space>",
+      --     node_incremental = "<C-space>",
+      --     scope_incremental = false,
+      --     node_decremental = "<bs>",
+      --   },
+      -- },
       indent = {
         enable = true,
       },
