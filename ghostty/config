@@ -1,0 +1,59 @@
+#font-family = "Dank Mono"
+font-family = "JetBrains Mono"
+#font-size = 14
+
+#window-inherit-font-size = false
+window-width = 9999
+window-height = 9999
+
+
+macos-titlebar-style = "hidden"
+window-colorspace = "display-p3"
+theme = "catppuccin-macchiato"
+
+# save all files - ESC :w Enter
+keybind = super+shift+s=text:\x1b\x3a\x77\x61\x0a
+
+# save file - ESC :w Enter
+keybind = super+s=text:\x1b\x3a\x77\x0a
+
+# find project
+keybind = super+f=text:\x02\x66
+
+# Toggle the zoom state of the current tmux pane
+keybind = super+z=text:\x02\x7a
+
+#Split the current pane into two, left and right
+keybind = super+shift+n=text:\x02\x25
+
+#Split the current pane into two, top and bottom. (ctrl+b+")
+keybind = super+n=text:\x02\x22
+
+#Select a tmux session for the attached client interactively (ctrl+b+s)
+keybind = super+k=text:\x02\x73\x0a
+
+#kill pane <C-b> + x
+keybind = super+w=text:\x02\x78
+
+#create tmux new pane
+keybind = super+t=text:\x02\x63
+
+#Open lazygit
+keybind = super+g=text:\x02\x67
+
+#rename session <C-b> + r
+keybind = super+r=text:\x02\x240
+
+#rename pane <C-b> + r
+keybind = super+,=text:\x02\x2c
+
+keybind = super+physical:one=text:\x02\x31
+keybind = super+physical:two=text:\x02\x32
+keybind = super+physical:three=text:\x02\x33
+keybind = super+physical:four=text:\x02\x34
+keybind = super+physical:five=text:\x02\x35
+keybind = super+physical:six=text:\x02\x36
+keybind = super+physical:seven=text:\x02\x37
+keybind = super+physical:eight=text:\x02\x38
+keybind = super+physical:nine=text:\x02\x39
+
