@@ -75,19 +75,21 @@ return {
       vim.keymap.set("n", "<leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
       vim.keymap.set("n", "<leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
       vim.keymap.set("n", "<leader>sf", function()
-        local opts = {} -- define here if you want to define something
+        local opts = {
+          hidden = true,
+        } -- define here if you want to define something
 
-        local cwd = vim.fn.getcwd()
-        if is_inside_work_tree[cwd] == nil then
-          vim.fn.system("git rev-parse --is-inside-work-tree")
-          is_inside_work_tree[cwd] = vim.v.shell_error == 0
-        end
+        -- local cwd = vim.fn.getcwd()
+        -- if is_inside_work_tree[cwd] == nil then
+        --   vim.fn.system("git rev-parse --is-inside-work-tree")
+        --   is_inside_work_tree[cwd] = vim.v.shell_error == 0
+        -- end
 
-        if is_inside_work_tree[cwd] then
-          builtin.git_files(opts)
-        else
-          builtin.find_files(opts)
-        end
+        -- if is_inside_work_tree[cwd] then
+        --   builtin.git_files(opts)
+        -- else
+        builtin.find_files(opts)
+        -- end
       end, { desc = "[S]earch [F]iles" })
 
       vim.keymap.set("n", "<leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })

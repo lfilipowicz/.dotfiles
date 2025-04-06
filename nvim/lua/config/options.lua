@@ -38,7 +38,7 @@ local options = {
   softtabstop = 4,
   expandtab = true,
   shiftwidth = 4,
-  -- ch = 0, -- not working without hit-enter prompt in netrw :(
+  ch = 0, -- not working without hit-enter prompt in netrw :(
   backspace = { "indent", "eol", "start" },
   termguicolors = true,
   cursorline = true,
@@ -82,3 +82,5 @@ vim.filetype.add({
   },
 })
 vim.lsp.set_log_level("off")
+vim.opt.spell = true
+vim.opt.spelllang = "en_us,pl"

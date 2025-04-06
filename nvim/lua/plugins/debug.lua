@@ -1,68 +1,337 @@
 return {
+  -- Neotest setup
   {
-    "mfussenegger/nvim-dap",
+    "nvim-neotest/neotest",
+    event = "VeryLazy",
     dependencies = {
-      "leoluz/nvim-dap-go",
-      "rcarriga/nvim-dap-ui",
-      "theHamsta/nvim-dap-virtual-text",
       "nvim-neotest/nvim-nio",
-      "williamboman/mason.nvim",
-    },
-    config = function()
-      local dap = require("dap")
-      local ui = require("dapui")
+      "nvim-lua/plenary.nvim",
+      "antoinemadec/FixCursorHold.nvim",
+      "nvim-treesitter/nvim-treesitter",
 
-      require("dapui").setup()
-      require("dap-go").setup()
-      -- dap.configurations.go = {
-      --   {
-      --     type = "go",
-      --     name = "Debug o2nitro",
-      --     request = "launch",
-      --     program = "${workspaceFolder}/cmd/o2nitro/main.go",
-      --     dlvToolPath = vim.fn.exepath("dlv"), -- Ensure Delve (dlv) is in your PATH
-      --     env = {
-      --       STATIC_ENV = "dev",
-      --       API_GATEWAY_SSR = "http://data-api.wp.pl/graphql",
-      --       STREAM_API_HOST = "http://o2nitro-backend-streamapi-ext.nginx.wp.dc-1.lb.dcwp.pl",
-      --     },
-      --   },
-      -- }
-      -- Handled by nvim-dap-go
-      dap.adapters.go = {
-        type = "server",
-        port = "${port}",
-        executable = {
-          command = "dlv",
-          args = { "dap", "-l", "127.0.0.1:${port}" },
+      "nvim-neotest/neotest-plenary",
+      "nvim-neotest/neotest-vim-test",
+
+      {
+        "fredrikaverpil/neotest-golang",
+        dependencies = {
+          {
+            "leoluz/nvim-dap-go",
+            opts = {},
+          },
+        },
+        branch = "main",
+      },
+    },
+    opts = function(_, opts)
+      opts.adapters = opts.adapters or {}
+      opts.adapters["neotest-golang"] = {
+        go_test_args = {
+          "-v",
+          "-race",
+          "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out",
         },
       }
-
-      vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-
-      -- Eval var under cursor
-      vim.keymap.set("n", "<space>dt", function()
-        require("dapui").eval(nil, { enter = true })
-      end)
-
-      vim.keymap.set("n", "<leader>dc", dap.continue)
-      vim.keymap.set("n", "<leader>dtt", dap.terminate)
-      vim.keymap.set("n", "<leader>dr", function()
-        ui.open({ reset = "true" })
-      end, { noremap = true })
-
-      dap.listeners.before.attach.dapui_config = function()
-        ui.open()
+    end,
+    config = function(_, opts)
+      if opts.adapters then
+        local adapters = {}
+        for name, config in pairs(opts.adapters or {}) do
+          if type(name) == "number" then
+            if type(config) == "string" then
+              config = require(config)
+            end
+            adapters[#adapters + 1] = config
+          elseif config ~= false then
+            local adapter = require(name)
+            if type(config) == "table" and not vim.tbl_isempty(config) then
+              local meta = getmetatable(adapter)
+              if adapter.setup then
+                adapter.setup(config)
+              elseif adapter.adapter then
+                adapter.adapter(config)
+                adapter = adapter.adapter
+              elseif meta and meta.__call then
+                adapter(config)
+              else
+                error("Adapter " .. name .. " does not support setup")
+              end
+            end
+            adapters[#adapters + 1] = adapter
+          end
+        end
+        opts.adapters = adapters
       end
-      dap.listeners.before.launch.dapui_config = function()
-        ui.open()
+
+      require("neotest").setup(opts)
+    end,
+    keys = {
+      {
+        "<leader>ta",
+        function()
+          require("neotest").run.attach()
+        end,
+        desc = "[t]est [a]ttach",
+      },
+      {
+        "<leader>tf",
+        function()
+          require("neotest").run.run(vim.fn.expand("%"))
+        end,
+        desc = "[t]est run [f]ile",
+      },
+      {
+        "<leader>tA",
+        function()
+          require("neotest").run.run(vim.uv.cwd())
+        end,
+        desc = "[t]est [A]ll files",
+      },
+      {
+        "<leader>tS",
+        function()
+          require("neotest").run.run({ suite = true })
+        end,
+        desc = "[t]est [S]uite",
+      },
+      {
+        "<leader>tn",
+        function()
+          require("neotest").run.run()
+        end,
+        desc = "[t]est [n]earest",
+      },
+      {
+        "<leader>tl",
+        function()
+          require("neotest").run.run_last()
+        end,
+        desc = "[t]est [l]ast",
+      },
+      {
+        "<leader>ts",
+        function()
+          require("neotest").summary.toggle()
+        end,
+        desc = "[t]est [s]ummary",
+      },
+      {
+        "<leader>to",
+        function()
+          require("neotest").output.open({ enter = true, auto_close = true })
+        end,
+        desc = "[t]est [o]utput",
+      },
+      {
+        "<leader>tO",
+        function()
+          require("neotest").output_panel.toggle()
+        end,
+        desc = "[t]est [O]utput panel",
+      },
+      {
+        "<leader>tt",
+        function()
+          require("neotest").run.stop()
+        end,
+        desc = "[t]est [t]erminate",
+      },
+      {
+        "<leader>td",
+        function()
+          require("neotest").run.run({ suite = false, strategy = "dap" })
+        end,
+        desc = "Debug nearest test",
+      },
+      {
+        "<leader>tD",
+        function()
+          require("neotest").run.run({ vim.fn.expand("%"), strategy = "dap" })
+        end,
+        desc = "Debug current file",
+      },
+    },
+  },
+
+  -- DAP setup
+  {
+    "mfussenegger/nvim-dap",
+    event = "VeryLazy",
+    keys = {
+      {
+        "<leader>db",
+        function()
+          require("dap").toggle_breakpoint()
+        end,
+        desc = "toggle [d]ebug [b]reakpoint",
+      },
+      {
+        "<leader>dB",
+        function()
+          require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+        end,
+        desc = "[d]ebug [B]reakpoint",
+      },
+      {
+        "<leader>dc",
+        function()
+          require("dap").continue()
+        end,
+        desc = "[d]ebug [c]ontinue (start here)",
+      },
+      {
+        "<leader>dC",
+        function()
+          require("dap").run_to_cursor()
+        end,
+        desc = "[d]ebug [C]ursor",
+      },
+      {
+        "<leader>dg",
+        function()
+          require("dap").goto_()
+        end,
+        desc = "[d]ebug [g]o to line",
+      },
+      {
+        "<leader>do",
+        function()
+          require("dap").step_over()
+        end,
+        desc = "[d]ebug step [o]ver",
+      },
+      {
+        "<leader>dO",
+        function()
+          require("dap").step_out()
+        end,
+        desc = "[d]ebug step [O]ut",
+      },
+      {
+        "<leader>di",
+        function()
+          require("dap").step_into()
+        end,
+        desc = "[d]ebug [i]nto",
+      },
+      {
+        "<leader>dj",
+        function()
+          require("dap").down()
+        end,
+        desc = "[d]ebug [j]ump down",
+      },
+      {
+        "<leader>dk",
+        function()
+          require("dap").up()
+        end,
+        desc = "[d]ebug [k]ump up",
+      },
+      {
+        "<leader>dl",
+        function()
+          require("dap").run_last()
+        end,
+        desc = "[d]ebug [l]ast",
+      },
+      {
+        "<leader>dp",
+        function()
+          require("dap").pause()
+        end,
+        desc = "[d]ebug [p]ause",
+      },
+      {
+        "<leader>dr",
+        function()
+          require("dap").repl.toggle()
+        end,
+        desc = "[d]ebug [r]epl",
+      },
+      {
+        "<leader>dR",
+        function()
+          require("dap").clear_breakpoints()
+        end,
+        desc = "[d]ebug [R]emove breakpoints",
+      },
+      {
+        "<leader>ds",
+        function()
+          require("dap").session()
+        end,
+        desc = "[d]ebug [s]ession",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("dap").terminate()
+        end,
+        desc = "[d]ebug [t]erminate",
+      },
+      {
+        "<leader>dw",
+        function()
+          require("dap.ui.widgets").hover()
+        end,
+        desc = "[d]ebug [w]idgets",
+      },
+    },
+  },
+
+  -- DAP UI setup
+  {
+    "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "mfussenegger/nvim-dap",
+    },
+    opts = {},
+    config = function(_, opts)
+      local sign = vim.fn.sign_define
+
+      sign("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
+      sign("DapBreakpointCondition", { text = "●", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+      sign("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
+      -- setup dap config by VsCode launch.json file
+      -- require("dap.ext.vscode").load_launchjs()
+      local dap = require("dap")
+      local dapui = require("dapui")
+      -- vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#993939", bg = "#31353f" })
+      -- vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef", bg = "#31353f" })
+      -- vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bg = "#31353f" })
+      dapui.setup(opts)
+      dap.listeners.after.event_initialized["dapui_config"] = function()
+        dapui.open({})
       end
-      dap.listeners.before.event_terminated.dapui_config = function()
-        ui.close()
+      dap.listeners.before.event_terminated["dapui_config"] = function()
+        dapui.close({})
       end
-      dap.listeners.before.event_exited.dapui_config = function()
-        ui.close()
+      dap.listeners.before.event_exited["dapui_config"] = function()
+        dapui.close({})
       end
     end,
+    keys = {
+      {
+        "<leader>du",
+        function()
+          require("dapui").toggle({})
+        end,
+        desc = "[d]ap [u]i",
+      },
+      {
+        "<leader>de",
+        function()
+          require("dapui").eval()
+        end,
+        desc = "[d]ap [e]val",
+      },
+    },
+  },
+  {
+    "theHamsta/nvim-dap-virtual-text",
+    opts = {},
   },
 }

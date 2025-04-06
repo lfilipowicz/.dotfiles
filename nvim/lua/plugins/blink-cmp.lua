@@ -16,31 +16,30 @@ return {
     cmdline = {
       enabled = false,
     },
-    enabled = function()
-      return not vim.tbl_contains({ "templ" }, vim.bo.filetype)
-        and vim.bo.buftype ~= "prompt"
-        and vim.b.completion ~= false
-    end,
-
-    -- documentation = { auto_show = true, auto_show_delay_ms = 500 },
     signature = {
       enabled = true,
     },
     completion = {
-      documentation = { auto_show = true, auto_show_delay_ms = 200 },
-      menu = {
+      documentation = {
         auto_show = true,
+        auto_show_delay_ms = 500,
+      },
+      menu = {
         draw = {
-
           components = {
-
             kind_icon = {
-              ellipsis = false,
               text = function(ctx)
                 local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
                 return kind_icon
               end,
-              -- Optionally, you may also use the highlights from mini.icons
+              -- (optional) use highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+            kind = {
+              -- (optional) use highlights from mini.icons
               highlight = function(ctx)
                 local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
                 return hl
@@ -54,10 +53,6 @@ return {
       -- 'enter' for mappings similar to 'super-tab' but with 'enter' to accept
       -- See the full "keymap" documentation for information on defining your own keymap.
       --
-    },
-
-    keymap = {
-      preset = "enter",
     },
 
     appearance = {
